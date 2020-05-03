@@ -1,0 +1,83 @@
+﻿@model IList<Postera.WebApp.Data.Models.Order>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SendDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArriveDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostOfficeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SourceStorageId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SourceClientEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationStorageId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationClientEmail)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SendDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArriveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostOfficeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SourceStorageId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SourceClientEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationStorageId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationClientEmail)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
