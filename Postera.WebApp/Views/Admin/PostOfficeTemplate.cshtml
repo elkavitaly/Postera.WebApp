@@ -1,0 +1,200 @@
+﻿@model Postera.WebApp.Data.Models.PostOffice
+@{
+    ViewData["Title"] = "PostOfficeTemplate";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="overview-wrap">
+            <h2 class="title-1">overview @Model.Name</h2>
+        </div>
+    </div>
+    <!-- Link to post office orders -->
+    <div class="row m-t-25">
+        <div class="col-sm-6 col-lg-3">
+            <a href="/Admin/OrdersTemplate/@Model.Id">
+                <div class="overview-item overview-item--c1">
+                    <div class="overview__inner">
+                        <div class="overview-box clearfix">
+                            <div class="icon">
+                                <i class="zmdi zmdi-account-o"></i>
+                            </div>
+                            <div class="text">
+                                <!-- TODO: calculate orders count  -->
+                                <h2>10368</h2>
+                                <span>Orders</span>
+                            </div>
+                        </div>
+                        <div class="overview-chart">
+                            <canvas id="widgetChart1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Link to post office storages -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="overview-item overview-item--c2">
+                <div class="overview__inner">
+                    <div class="overview-box clearfix">
+                        <div class="icon">
+                            <i class="zmdi zmdi-shopping-cart"></i>
+                        </div>
+                        <!-- TODO: calculate storages for post offices  -->
+                        <div class="text">
+                            <h2>388,688</h2>
+                            <span>active storages</span>
+                        </div>
+                    </div>
+                    <div class="overview-chart">
+                        <canvas id="widgetChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Link to post office users -->
+        <div class="col-sm-6 col-lg-3">
+            <a href="postOfficeUsers.html">
+                <div class="overview-item overview-item--c3">
+                    <div class="overview__inner">
+                        <div class="overview-box clearfix">
+                            <div class="icon">
+                                <i class="zmdi zmdi-calendar-note"></i>
+                            </div>
+                            <div class="text">
+                                <h2>1,086</h2>
+                                <span>staff</span>
+                            </div>
+                        </div>
+                        <div class="overview-chart">
+                            <canvas id="widgetChart3"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Link to post office total profit -->
+        <div class="col-sm-6 col-lg-3">
+            <div class="overview-item overview-item--c4">
+                <div class="overview__inner">
+                    <div class="overview-box clearfix">
+                        <div class="icon">
+                            <i class="zmdi zmdi-money"></i>
+                        </div>
+                        <div class="text">
+                            <h2>$1,060,386</h2>
+                            <span>total earnings</span>
+                        </div>
+                    </div>
+                    <div class="overview-chart">
+                        <canvas id="widgetChart4"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row w-100 m-b-25">
+        <!-- Get orders sum by month -->
+        <div class="col-lg-8 report-block">
+            <div class="au-card recent-report">
+                <div class="au-card-inner">
+                    <h3 class="title-2">recent reports</h3>
+                    <div class="chart-info">
+                        <div class="chart-info__left">
+                            <div class="chart-note">
+                                <span class="dot dot--blue"></span>
+                                <span>products</span>
+                            </div>
+                            <div class="chart-note mr-0">
+                                <span class="dot dot--green"></span>
+                                <span>services</span>
+                            </div>
+                        </div>
+                        <div class="chart-info__right">
+                            <div class="chart-statis">
+                                <span class="index incre">
+                                    <i class="zmdi zmdi-long-arrow-up"></i>25%
+                                </span>
+                                <span class="label">products</span>
+                            </div>
+                            <div class="chart-statis mr-0">
+                                <span class="index decre">
+                                    <i class="zmdi zmdi-long-arrow-down"></i>10%
+                                </span>
+                                <span class="label">services</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recent-report__chart">
+                        <canvas id="recent-rep-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 report-block">
+            <!-- Get companies where sum by orders is maximum -->
+            <h2 class="title-1">Top companies</h2>
+            <div class="au-card au-card--bg-blue au-card-top-countries">
+                <div class="au-card-inner">
+                    <div class="table-responsive">
+                        <table class="table table-top-countries">
+                            <tbody>
+                                <tr>
+                                    <td>United States</td>
+                                    <td class="text-right">$119,366.96</td>
+                                </tr>
+                                <tr>
+                                    <td>Australia</td>
+                                    <td class="text-right">$70,261.65</td>
+                                </tr>
+                                <tr>
+                                    <td>United Kingdom</td>
+                                    <td class="text-right">$46,399.22</td>
+                                </tr>
+                                <tr>
+                                    <td>Turkey</td>
+                                    <td class="text-right">$35,364.90</td>
+                                </tr>
+                                <tr>
+                                    <td>Germany</td>
+                                    <td class="text-right">$20,366.96</td>
+                                </tr>
+                                <tr>
+                                    <td>Turkey</td>
+                                    <td class="text-right">$35,364.90</td>
+                                </tr>
+                                <tr>
+                                    <td>Turkey</td>
+                                    <td class="text-right">$35,364.90</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row w-100">
+        <div class="col-lg-12">
+            <h2 class="title-1 m-b-25">Latest Orders</h2>
+            <div class="table-responsive table--no-card m-b-40">
+                <table class="table table-borderless table-striped table-earning">
+                    <thead>
+                        <tr>
+                            <th>date</th>
+                            <th>order ID</th>
+                            <th class="text-right">total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="latestOrders">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        getLatestOrders("@Model.Id", "postOffice");
+    </script>
+}

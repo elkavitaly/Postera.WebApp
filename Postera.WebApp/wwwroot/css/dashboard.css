@@ -1,0 +1,10 @@
+.m-b-15 {
+    margin-bottom: 15px;
+}
+
+.report-block {
+    display: flex;
+    flex-direction: column;
+    height: 460px;
+    justify-content: space-between;
+}

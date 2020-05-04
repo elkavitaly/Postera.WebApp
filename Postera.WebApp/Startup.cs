@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,12 +21,24 @@ namespace Postera.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var baseUrl = Configuration.GetSection("Url").Get<string>();
-
+            services.AddScoped<IAdminService, AdminService>();
             services.AddSingleton<IHttpClient, HttpClient>();
+
+            var baseUrl = Configuration.GetSection("ServerUrl").Get<string>();
             services.AddHttpClient(
                 "default",
                 client => client.BaseAddress = new Uri(baseUrl));
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(options =>
+                {
+                    options.SlidingExpiration = true;
+                    options.LoginPath = "/users/login";
+                    options.AccessDeniedPath = "/users/accessDenied/";
+                });
             services
                 .AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -47,13 +60,12 @@ namespace Postera.WebApp
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

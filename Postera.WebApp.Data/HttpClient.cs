@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Postera.WebApp.Data
 {
@@ -15,7 +15,7 @@ namespace Postera.WebApp.Data
             _clientFactory = clientFactory;
         }
 
-        public async Task<T> SendRequest<T>(HttpRequestMessage message)
+        public async Task<T> SendRequest<T>(HttpRequestMessage message) where T : class
         {
             var client = _clientFactory.CreateClient("default");
 
@@ -32,8 +32,12 @@ namespace Postera.WebApp.Data
                 throw new ArgumentException(content);
             }
 
-            var result = JsonSerializer.Deserialize<T>(content);
+            if (typeof(T) == typeof(string))
+            {
+                return content as T;
+            }
 
+            var result = JsonConvert.DeserializeObject<T>(content);
             return result;
         }
     }

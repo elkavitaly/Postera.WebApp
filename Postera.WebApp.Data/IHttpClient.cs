@@ -5,6 +5,6 @@ namespace Postera.WebApp.Data
 {
     public interface IHttpClient
     {
-        Task<T> SendRequest<T>(HttpRequestMessage message);
+        Task<T> SendRequest<T>(HttpRequestMessage message) where T : class;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Postera.WebApp.Helpers
 {
@@ -11,9 +12,8 @@ namespace Postera.WebApp.Helpers
         {
             var claim = new Claim(ClaimTypes.NameIdentifier, token);
             var claims = new List<Claim> { claim };
-            var claimsIdentity = new ClaimsIdentity(claims);
-            var claimsIdentities = new List<ClaimsIdentity> { claimsIdentity };
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentities);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
             return claimsPrincipal;
         }
