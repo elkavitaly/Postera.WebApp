@@ -1,0 +1,24 @@
+﻿@model IList<Postera.WebApp.Data.Models.StorageCompany>
+@{
+    Layout = null;
+}
+
+@if(Model == null)
+{
+    return;
+}
+
+@foreach (var storageCompany in Model)
+{
+    <tr class="tr-shadow">
+        <td>
+            @Html.ActionLink(storageCompany.Name, "StorageComapnyTemplate", "Admin", new { id = storageCompany.Id })
+        </td>
+        <td>
+            <span class="block-email">@storageCompany.Email</span>
+        </td>
+        <td class="desc">@storageCompany.Address.City</td>
+        <td class="desc">@storageCompany.Address.Street, @storageCompany.Address.House</td>
+    </tr>
+    <tr class="spacer"></tr>
+}

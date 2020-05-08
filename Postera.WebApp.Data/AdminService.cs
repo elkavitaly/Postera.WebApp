@@ -64,6 +64,19 @@ namespace Postera.WebApp.Data
             return postOffice;
         }
 
+        public async Task<PostOffice> AddPostOffice(PostOffice postOffice, string token)
+        {
+            var serializedPostOffice = JsonConvert.SerializeObject(postOffice);
+            var content = new StringContent(serializedPostOffice, Encoding.UTF8, "application/json");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api/postOffices/");
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            httpRequestMessage.Content = content;
+
+            var createdPostOffice = await _client.SendRequest<PostOffice>(httpRequestMessage);
+
+            return createdPostOffice;
+        }
+
         public async Task<IList<StorageCompany>> GetStorageCompanies(string token)
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/admin/storageCompanies");
@@ -102,6 +115,19 @@ namespace Postera.WebApp.Data
             var storage = await _client.SendRequest<Storage>(httpRequestMessage);
 
             return storage;
+        }
+
+        public async Task<StorageCompany> AddStorageCompany(StorageCompany storageCompany, string token)
+        {
+            var serializedStorageCompany = JsonConvert.SerializeObject(storageCompany);
+            var content = new StringContent(serializedStorageCompany, Encoding.UTF8, "application/json");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api/storageCompanies/");
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            httpRequestMessage.Content = content;
+
+            var createdStorageCompany = await _client.SendRequest<StorageCompany>(httpRequestMessage);
+
+            return createdStorageCompany;
         }
 
         public async Task<string> GetToken(LoginModel loginModel)

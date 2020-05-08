@@ -76,4 +76,12 @@ body {
 .modal-open-scroll {
     overflow-x: hidden;
     overflow-y: auto;
+    background-color: rgba(163, 163, 163, 0.8);
+
+}
+
+.storage-section {
+    padding: 5px;
+    border: 1px solid #e9ecef;
+    margin-bottom: 20px;
 }

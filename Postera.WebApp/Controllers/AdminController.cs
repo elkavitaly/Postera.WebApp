@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,10 @@ namespace Postera.WebApp.Controllers
             _adminService = adminService;
         }
 
-        [HttpGet("/postOffices")]
-        public IActionResult PostOfficesListTemplate()
+        [HttpGet("/items/{type}")]
+        public IActionResult PostOfficesListTemplate(string type)
         {
-            return View();
+            return View("PostOfficesListTemplate", type);
         }
 
         [HttpGet("/postOffices/list")]
@@ -31,6 +32,15 @@ namespace Postera.WebApp.Controllers
             var postOffices = await _adminService.GetPostOffices(token);
 
             return View(postOffices);
+        }
+
+        [HttpGet("/storageCompanys/list")]
+        public async Task<IActionResult> GetStorageCompaniesList()
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var storageCompanies = await _adminService.GetStorageCompanies(token);
+
+            return View(storageCompanies);
         }
 
         [HttpGet]
@@ -65,7 +75,28 @@ namespace Postera.WebApp.Controllers
 
             return Ok(order);
         }
-        
+
+        [HttpGet("/orders/{id}/modal")]
+        public async Task<IActionResult> GetOrderModal(Guid id)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var order = await _adminService.GetOrder(id, token);
+
+            return View(order);
+        }
+
+        [HttpGet("/postOffices/modal")]
+        public IActionResult GetPostOfficeAddModal()
+        {
+            return View();
+        }
+
+        [HttpGet("/storageCompany/modal")]
+        public IActionResult GetStorageCompanyAddModal()
+        {
+            return View();
+        }
+
         [HttpGet("/postOffices/{id}")]
         public async Task<IActionResult> GetPostOffice(Guid id)
         {
@@ -74,7 +105,34 @@ namespace Postera.WebApp.Controllers
 
             return Ok(postOffice);
         }
-        
+
+        [HttpPost("/postOffices")]
+        public async Task<IActionResult> AddPostOffice(PostOffice postOffice)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var createdPostOffice = await _adminService.AddPostOffice(postOffice, token);
+
+            return Ok(createdPostOffice.Id);
+        }
+
+        [HttpPost("/storageCompany")]
+        public async Task<IActionResult> AddStorageCompany(StorageCompany storageCompany)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var createdPostOffice = await _adminService.AddStorageCompany(storageCompany, token);
+
+            return Ok(createdPostOffice.Id);
+        }
+
+        [HttpPost("/storageCompanies/{id}/storages")]
+        public async Task<IActionResult> AddStoragesToCompany(Guid id, List<Storage> storages)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var postOffice = await _adminService.GetPostOffice(id, token);
+
+            return Ok(postOffice);
+        }
+
         [HttpGet("/storages/{id}")]
         public async Task<IActionResult> GetStorage(Guid id)
         {
@@ -88,6 +146,12 @@ namespace Postera.WebApp.Controllers
         public IActionResult OrdersTemplate(Guid id)
         {
             return View(id);
+        }
+
+        [HttpGet("/storage/section")]
+        public IActionResult GetStorageSection()
+        {
+            return View();
         }
     }
 }

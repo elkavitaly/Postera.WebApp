@@ -14,6 +14,8 @@ namespace Postera.WebApp.Data
         Task<IList<PostOffice>> GetPostOffices(string token);
 
         Task<PostOffice> GetPostOffice(Guid id, string token);
+        
+        Task<PostOffice> AddPostOffice(PostOffice postOffice, string token);
 
         Task<IList<StorageCompany>> GetStorageCompanies(string token);
 
@@ -22,6 +24,8 @@ namespace Postera.WebApp.Data
         Task<IList<StorageCompany>> GetStorages(Guid storageCompanyId, string token);
 
         Task<Storage> GetStorage(Guid id, string token);
+
+        Task<StorageCompany> AddStorageCompany(StorageCompany storageCompany, string token);
 
         Task<string> GetToken(LoginModel loginModel);
 

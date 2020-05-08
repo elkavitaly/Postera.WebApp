@@ -1,0 +1,66 @@
+﻿@model Postera.WebApp.Data.Models.PostOffice
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="scrollmodal" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="addForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scrollmodalLabel">Post office</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-flex justify-content-center">
+                    <div class="col-lg-11">
+                        <div class="card-body card-block">
+                            <div class="form-group">
+                                <label for="company" class=" form-control-label">Company</label>
+                                <input type="text" asp-for="Name" placeholder="Enter your company name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="vat" class=" form-control-label">Email</label>
+                                <input type="email" asp-for="Email" placeholder="Enter company email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="street" class=" form-control-label">Phone</label>
+                                <input type="tel" asp-for="Phone" placeholder="Enter company phone" class="form-control">
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="city" class=" form-control-label">Country</label>
+                                        <input type="text" asp-for="Address.Country" placeholder="Enter country" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="postal-code" class=" form-control-label">City</label>
+                                        <input type="text" asp-for="Address.City" placeholder="Enter city" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="postal-code" class=" form-control-label">Street</label>
+                                        <input type="text" asp-for="Address.Street" placeholder="Enter street" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="postal-code" class=" form-control-label">Building number</label>
+                                        <input type="text" asp-for="Address.House" placeholder="Enter building number" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="create" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

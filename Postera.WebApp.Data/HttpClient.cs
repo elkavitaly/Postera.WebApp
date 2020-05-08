@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -22,14 +20,9 @@ namespace Postera.WebApp.Data
             var responseMessage = await client.SendAsync(message);
 
             var content = await responseMessage.Content.ReadAsStringAsync();
-            if (responseMessage.StatusCode == HttpStatusCode.BadRequest)
+            if (!responseMessage.IsSuccessStatusCode)
             {
-                throw new HttpRequestException(content);
-            }
-
-            if (responseMessage.StatusCode == HttpStatusCode.InternalServerError)
-            {
-                throw new ArgumentException(content);
+                throw new RequestException(responseMessage.StatusCode, content);
             }
 
             if (typeof(T) == typeof(string))

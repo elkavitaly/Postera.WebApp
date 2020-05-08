@@ -1,0 +1,53 @@
+﻿@using Postera.WebApp.Data.Enums
+@model Postera.WebApp.Data.Models.Storage
+@{
+    Layout = null;
+}
+
+<form class="storage-section-form">
+    <div class="col-lg-11">
+        <div class="card-body card-block">
+            <div class="form-group">
+                <label for="name" class=" form-control-label">Storage</label>
+                <input type="text" asp-for="Name" placeholder="Enter storage name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="type" class=" form-control-label">Type</label>
+                <select asp-for="Type" asp-items="Html.GetEnumSelectList<StorageType>()" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="square" class=" form-control-label">Square</label>
+                <input type="number" asp-for="Square" class="form-control">
+            </div>
+            <div class="row form-group">
+                <div class="col-8">
+                    <div class="form-group">
+                        <label for="country" class=" form-control-label">Country</label>
+                        <input type="text" asp-for="Address.Country" placeholder="Enter country" class="form-control">
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <label for="city" class=" form-control-label">City</label>
+                        <input type="text" asp-for="Address.City" placeholder="Enter city" class="form-control">
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <label for="street" class=" form-control-label">Street</label>
+                        <input type="text" asp-for="Address.Street" placeholder="Enter street" class="form-control">
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <label for="house" class=" form-control-label">Building number</label>
+                        <input type="text" asp-for="Address.House" placeholder="Enter building number" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button class="removeStorageButton btn btn-danger">Remove</button>
+        </div>
+    </div>
+</form>
