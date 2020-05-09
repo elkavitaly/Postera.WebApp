@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.PostOffice>
+﻿@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.Storage>
 
 @{
     Layout = null;
@@ -8,11 +8,10 @@
 {
     <tr class="tr-shadow">
         <td>
-            @Html.ActionLink(postOffice.Name, "PostOfficeTemplate", "Admin", new { id = postOffice.Id })
+            <span class="block-email">@postOffice.Name</span>
         </td>
-        <td>
-            <span class="block-email">@postOffice.Email</span>
-        </td>
+        <td class="desc">@postOffice.Square</td>
+        <td class="desc">@postOffice.Type.ToString()</td>
         <td class="desc">@postOffice.Address.City</td>
         <td class="desc">@postOffice.Address.Street, @postOffice.Address.House</td>
     </tr>

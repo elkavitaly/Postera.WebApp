@@ -85,3 +85,21 @@ body {
     border: 1px solid #e9ecef;
     margin-bottom: 20px;
 }
+
+.edit-button {
+    height: 25px;
+    text-align: center;
+}
+
+.edit-button img {
+    height: 100%;
+}
+
+.delete-button {
+    height: 25px;
+    text-align: center;
+}
+
+.delete-button img {
+    height: 100%;
+}

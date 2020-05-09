@@ -1,4 +1,4 @@
-﻿@model Guid
+﻿@model SearchParameters
 @{
     ViewData["Title"] = "OrdersTemplate";
     Layout = "_Layout";
@@ -26,7 +26,7 @@
 
 @section Scripts {
     <script>
-        getOrders("@Model", "postOffice");
+        getOrders("@Model.Id", "@Model.Type");
         registerOrderModal();
     </script>
 }

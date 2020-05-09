@@ -28,23 +28,21 @@
 
 async function getItemsList(itemType) {
     let tableBody = document.querySelector(`#itemsList`);
-    let items = await sendRequest(`/${itemType}s/list`);
+    let items = await sendRequest(`/${itemType}`);
     tableBody.innerHTML = items;
 }
 
 async function getLatestOrders(id, type) {
     let tableBody = document.querySelector("#latestOrders");
-    let orders = await sendRequest(`/${type}s/${id}/orders?take=10&orderby.field=SendDate`);
+    let orders = await sendRequest(`/${type}/${id}/orders?take=10&orderby.field=SendDate`);
     tableBody.innerHTML = orders;
 }
 
 async function getOrders(id, type) {
     let tableBody = document.querySelector("#orders");
-    let orders = await sendRequest(`/${type}s/${id}/orders`);
+    let orders = await sendRequest(`/${type}/${id}/orders`);
     tableBody.innerHTML = orders;
 }
-
-
 
 /// modal window
 
@@ -116,12 +114,16 @@ async function registerAddModal(itemType) {
         func = displayPostOfficeModal;
     } else if (type == "storagecompany") {
         func = displayStorageCompanyModal;
+    } else if (type == "storage") {
+        func = displayStorageModal;
     } else {
         func = displayPostOfficeModal;
     }
 
     button.addEventListener("click", func);
 }
+
+// post office 
 
 async function registerPostOfficeModal() {
     let button = document.querySelector("#addItemButton");
@@ -136,27 +138,32 @@ async function displayPostOfficeModal() {
     document.querySelector("#modalWindowBlock").innerHTML += modalWindow;
 
     onModalDisplay();
-    await registerPostOfficeAdd();
+    await registerPostOfficeAdd(onPostOfficeAddModalSubmit);
 }
 
-async function registerPostOfficeAdd() {
+async function registerAddButtonClick(callback) {
     let button = document.querySelector("#create");
-    button.addEventListener("click", onPostOfficeAddModalSubmit);
+    button.addEventListener("click", callback);
 }
 
 async function onPostOfficeAddModalSubmit() {
-    var form = document.querySelector("#addForm");
+    let form = document.querySelector("#addForm");
     let formData = new FormData(form);
     let parameters = new URLSearchParams(formData);
 
-    let id = await sendRequest("/postOffices", "post", parameters);
+    let response = await sendRequest("/postOffices", "post", parameters);
+    let id = JSON.parse(response);
+
     if (id) {
-        window.location.assign(`/Admin/PostOfficeTemplate/${id}`);
+        window.location.assign(`/postOffices/${id}/template`);
     }
 }
 
+
+// storage company
+
 async function displayStorageCompanyModal() {
-    let modalWindow = await sendRequest(`/storageCompany/modal`);
+    let modalWindow = await sendRequest(`/storageCompanys/modal`);
     document.querySelector("#modalWindowBlock").innerHTML += modalWindow;
 
     onModalDisplay();
@@ -174,12 +181,14 @@ async function onStorageCompanyAddModalSubmit() {
     let form = document.querySelector("#addForm");
     let formData = new FormData(form);
     let parameters = new URLSearchParams(formData);
+    getStoragesToAdd(parameters);
 
-    //let id = await sendRequest("/storageCompany", "post", parameters.toString());
-    await getStoragesToAdd("7085a8aa-4566-46f3-8971-8dcecf0c741e");
-    //if (id) {
-    //    window.location.assign(`/Admin/StorageCompany/${id}`);
-    //}
+    let response = await sendRequest("/storageCompanys", "post", parameters);
+    let id = JSON.parse(response);
+
+    if (id) {
+        window.location.assign(`/storageCompanys/${id}/template`);
+    }
 }
 
 function registerAddStorage() {
@@ -198,8 +207,7 @@ function onRemoveStorageClick(event) {
 }
 
 async function onAddStorageClick() {
-    let storageSection = await sendRequest("/storage/section");
-    //let element = new DOMParser().parseFromString(storageSection, "text/html");
+    let storageSection = await sendRequest("/storages/section");
     let storageRow = document.querySelector("#storages");
     let container = document.createElement("div");
     container.setAttribute("class", "row storage-section");
@@ -207,21 +215,19 @@ async function onAddStorageClick() {
     storageRow.appendChild(container);
 }
 
-async function getStoragesToAdd(id) {
+async function getStoragesToAdd(result) {
+    if (!result) {
+        result = new URLSearchParams();
+    }
+
     let sections = document.querySelectorAll("#storages .storage-section");
-    var result = new URLSearchParams();
+
     for (let i = 0; i < sections.length; i++) {
         let form = sections[i].querySelector("form.storage-section-form");
         let formData = new FormData(form);
         let params = new URLSearchParams(formData);
         convertToCollectionElement(params, result, i);
-        //let object = convertUrlParamsToObject(params);
-        //result.push(object);
     }
-
-    //let json = JSON.stringify(result);
-    //let headers = {"Content-Type" : "application/json"}
-    let response = await sendRequest(`/storageCompanies/${id}/storages`, "post", result);
 }
 
 function convertUrlParamsToObject(urlParams) {
@@ -234,18 +240,103 @@ function convertUrlParamsToObject(urlParams) {
     return result;
 }
 
-function convertToCollectionElement(urlParams, resultParams,  index) {
+function convertToCollectionElement(urlParams, resultParams, index) {
     for (let entry of urlParams.entries()) {
         let key = `storages[${index}].${entry[0]}`;
-        //if (key.includes(".")) {
-        //    let dotIndex = key.indexOf(".");
-        //    let leftPart = `${key.substr(0, dotIndex)}[${index}]`;
-        //    let rightPart = key.substr(dotIndex);
-        //    key = leftPart + rightPart;
-        //} else {
-        //    key = `${key}[${index}]`;
-        //}
 
         resultParams.append(key, entry[1]);
     }
+}
+
+// storage
+
+async function getStorages(type, id) {
+    let tableBody = document.querySelector(`#itemsList`);
+    let items = await sendRequest(`/${type}/${id}/storages`);
+    tableBody.innerHTML = items;
+}
+
+///////////////// edit post office section ///////////////
+
+//async function addEditButton(element) {
+//    element.addEventListener("click",
+//        async function (event) {
+//            if (event.target.closest("div").className.includes("edit-button")) {
+//                let id = event.target.closest("div.edit-button").id;
+//                await onPostOfficeEditButtonClick(id);
+//            }
+
+//            if (event.target.closest("div").className.includes("delete-button")) {
+//                let id = event.target.closest("div.delete-button").id;
+//                await onPostOfficeDeleteButtonClick(id);
+//            }
+//        });
+//}
+
+//async function onPostOfficeEditButtonClick(id) {
+//    let modal = await sendRequest(`/postOffices/${id}/modal`);
+//    document.querySelector("#modalWindowBlock").innerHTML += modal;
+
+//    onModalDisplay();
+//    await registerPostOfficeAdd(onPostOfficeEditModalSubmit);
+//}
+
+async function addEditDeleteButton(element, type) {
+    let editFunction;
+    if (type.toLowerCase() == "postoffices") {
+        editFunction = onPostOfficeEditModalSubmit;
+    } else if (type.toLowerCase() == "storagecompanys") {
+        editFunction = onStorageCompanyEditModalSubmit;
+    }
+
+    element.addEventListener("click",
+        async function (event) {
+            if (event.target.closest("div").className.includes("edit-button")) {
+                let id = event.target.closest("div.edit-button").id;
+                await onEditButtonClick(id, type, editFunction);
+            }
+
+            if (event.target.closest("div").className.includes("delete-button")) {
+                let id = event.target.closest("div.delete-button").id;
+                await onDeleteButtonClick(id, type);
+            }
+        });
+}
+
+async function onEditButtonClick(id, type, callback) {
+    let modal = await sendRequest(`/${type}/${id}/modal`);
+    document.querySelector("#modalWindowBlock").innerHTML += modal;
+
+    onModalDisplay();
+    await registerAddButtonClick(callback);
+}
+
+async function onPostOfficeEditModalSubmit() {
+    let form = document.querySelector("#addForm");
+    let formData = new FormData(form);
+    let parameters = new URLSearchParams(formData);
+
+    await sendRequest("/postOffices", "put", parameters);
+
+    onModalClose();
+    getItemsList("postOffices");
+}
+
+async function onDeleteButtonClick(id, type) {
+    await sendRequest(`/${type}/${id}`, "delete");
+
+    getItemsList(`${type}`);
+}
+
+///////////////// edit storage company section ///////////////
+
+async function onStorageCompanyEditModalSubmit() {
+    let form = document.querySelector("#addForm");
+    let formData = new FormData(form);
+    let parameters = new URLSearchParams(formData);
+
+    await sendRequest("/storageCompanys", "put", parameters);
+
+    onModalClose();
+    getItemsList("storageCompanys");
 }

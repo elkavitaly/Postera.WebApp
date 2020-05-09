@@ -1,6 +1,6 @@
-﻿@model Postera.WebApp.Data.Models.PostOffice
+﻿@model Postera.WebApp.Data.Models.StorageCompany
 @{
-    ViewData["Title"] = "PostOfficeTemplate";
+    ViewData["Title"] = "StorageCompanyTemplate";
 }
 
 <div class="row">
@@ -12,7 +12,7 @@
     <!-- Link to post office orders -->
     <div class="row m-t-25">
         <div class="col-sm-6 col-lg-3">
-            <a href="/Admin/OrdersTemplate/@Model.Id">
+            <a href="/storageCompanys/@Model.Id/orders/template">
                 <div class="overview-item overview-item--c1">
                     <div class="overview__inner">
                         <div class="overview-box clearfix">
@@ -34,23 +34,25 @@
         </div>
         <!-- Link to post office storages -->
         <div class="col-sm-6 col-lg-3">
-            <div class="overview-item overview-item--c2">
-                <div class="overview__inner">
-                    <div class="overview-box clearfix">
-                        <div class="icon">
-                            <i class="zmdi zmdi-shopping-cart"></i>
+            <a href="/storageCompanys/@Model.Id/storages/template/list">
+                <div class="overview-item overview-item--c2">
+                    <div class="overview__inner">
+                        <div class="overview-box clearfix">
+                            <div class="icon">
+                                <i class="zmdi zmdi-shopping-cart"></i>
+                            </div>
+                            <!-- TODO: calculate storages for post offices  -->
+                            <div class="text">
+                                <h2>388,688</h2>
+                                <span>active storages</span>
+                            </div>
                         </div>
-                        <!-- TODO: calculate storages for post offices  -->
-                        <div class="text">
-                            <h2>388,688</h2>
-                            <span>active storages</span>
+                        <div class="overview-chart">
+                            <canvas id="widgetChart2"></canvas>
                         </div>
-                    </div>
-                    <div class="overview-chart">
-                        <canvas id="widgetChart2"></canvas>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <!-- Link to post office users -->
         <div class="col-sm-6 col-lg-3">
@@ -195,6 +197,6 @@
 </div>
 @section Scripts {
     <script>
-        getLatestOrders("@Model.Id", "postOffice");
+        getLatestOrders("@Model.Id", "storageCompany");
     </script>
 }

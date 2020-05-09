@@ -36,8 +36,8 @@ namespace Postera.WebApp
                 .AddCookie(options =>
                 {
                     options.SlidingExpiration = true;
-                    options.LoginPath = "/users/login";
-                    options.AccessDeniedPath = "/users/accessDenied/";
+                    options.LoginPath = "/user/login";
+                    options.AccessDeniedPath = "/user/accessDenied/";
                 });
             services
                 .AddControllersWithViews()

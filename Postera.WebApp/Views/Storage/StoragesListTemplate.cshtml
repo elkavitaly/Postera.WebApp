@@ -1,7 +1,7 @@
-﻿@model string
+﻿@model SearchParameters
 <div class="row">
     <div class="col-md-12">
-        <h3 class="title-5 m-b-35">data table</h3>
+        <h3 class="title-5 m-b-35">storage</h3>
         <div class="table-data__tool">
             <div class="table-data__tool-left">
                 <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="addItemButton">
@@ -14,7 +14,9 @@
                 <thead>
                     <tr>
                         <th>name</th>
-                        <th>email</th>
+                        <th>square, m3</th>
+                        <th>type</th>
+                        <th>city</th>
                         <th>address</th>
                     </tr>
                 </thead>
@@ -27,7 +29,7 @@
 
 @section Scripts {
     <script>
-        getItemsList("@Model");
+        getStorages("@Model.Type", "@Model.Id");
         registerAddModal("@Model");
     </script>
 }

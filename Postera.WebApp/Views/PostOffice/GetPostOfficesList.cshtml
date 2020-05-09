@@ -1,0 +1,30 @@
+﻿@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.PostOffice>
+
+@{
+    Layout = null;
+}
+
+@foreach (var postOffice in Model)
+{
+    <tr class="tr-shadow">
+        <td>
+            @Html.ActionLink(postOffice.Name, "PostOfficeTemplate", "PostOffice", new { id = postOffice.Id })
+        </td>
+        <td>
+            <span class="block-email">@postOffice.Email</span>
+        </td>
+        <td class="desc">@postOffice.Address.City</td>
+        <td class="desc">@postOffice.Address.Street, @postOffice.Address.House</td>
+        <td class="desc">
+            <div class="edit-button" id="@postOffice.Id">
+                <img src="/images/edit-icon.png" />
+            </div>
+        </td>
+        <td class="desc">
+            <div class="delete-button" id="@postOffice.Id">
+                <img src="/images/delete-icon.png" />
+            </div>
+        </td>
+    </tr>
+    <tr class="spacer"></tr>
+}
