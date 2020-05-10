@@ -103,3 +103,7 @@ body {
 .delete-button img {
     height: 100%;
 }
+
+.disabled {
+    display: none;
+}

@@ -18,8 +18,10 @@ namespace Postera.WebApp.Data
         Task<PostOffice> AddPostOffice(PostOffice postOffice, string token);
 
         Task EditPostOffice(PostOffice postOffice, string token);
-        
+
         Task DeletePostOffice(Guid id, string token);
+
+        Task BindStoragesToPostOffice(Guid id, Dictionary<string, string> param, string token);
 
         Task<IList<StorageCompany>> GetStorageCompanies(string token);
 
@@ -30,6 +32,10 @@ namespace Postera.WebApp.Data
         Task<Storage> GetStorage(Guid id, string token);
 
         Task<StorageCompany> AddStorageCompany(StorageCompany storageCompany, string token);
+
+        Task EditStorageCompany(StorageCompany storageCompany, string token);
+
+        Task DeleteStorageCompany(Guid id, string token);
 
         Task CreateStoragesCompany(Guid id, IList<Storage> storages, string token);
 

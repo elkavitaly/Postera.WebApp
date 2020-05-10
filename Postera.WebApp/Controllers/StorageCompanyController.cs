@@ -25,12 +25,21 @@ namespace Postera.WebApp.Controllers
         }
 
         [HttpGet("/storageCompanys")]
+        public async Task<IActionResult> GetStorageCompanies()
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var storageCompanies = await _adminService.GetStorageCompanies(token);
+
+            return View("GetStorageCompaniesList", storageCompanies);
+        }
+
+        [HttpGet("/storageCompanys/json")]
         public async Task<IActionResult> GetStorageCompaniesList()
         {
             var token = ClaimsHelper.GetTokenFromClaims(User);
             var storageCompanies = await _adminService.GetStorageCompanies(token);
 
-            return View(storageCompanies);
+            return Ok(storageCompanies);
         }
 
         [HttpGet("/storageCompanys/{id}/template")]
@@ -48,6 +57,15 @@ namespace Postera.WebApp.Controllers
             return View();
         }
 
+        [HttpGet("/storageCompanys/{id}/modal")]
+        public async Task<IActionResult> GetEditModal(Guid id)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var storageCompany = await _adminService.GetStorageCompany(id, token);
+
+            return View("GetStorageCompanyAddModal", storageCompany);
+        }
+
         [HttpPost("/storageCompanys")]
         public async Task<IActionResult> AddStorageCompany(StorageCompany storageCompany)
         {
@@ -55,6 +73,24 @@ namespace Postera.WebApp.Controllers
             var createdPostOffice = await _adminService.AddStorageCompany(storageCompany, token);
 
             return Ok(createdPostOffice.Id);
+        }
+
+        [HttpPut("/storageCompanys")]
+        public async Task<IActionResult> EditPostOffice(StorageCompany storageCompany)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            await _adminService.EditStorageCompany(storageCompany, token);
+
+            return Ok();
+        }
+
+        [HttpDelete("/storageCompanys/{id}")]
+        public async Task<IActionResult> DeletePostOffice(Guid id)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            await _adminService.DeleteStorageCompany(id, token);
+
+            return Ok();
         }
     }
 }

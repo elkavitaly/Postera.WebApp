@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -49,10 +50,11 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Items
-                            </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                            @*<a class="js-arrow" href="#">
+                                    <i class="fas fa-tachometer-alt"></i>Items
+                                </a>*@
+                            @*<ul class="list-unstyled navbar__sub-list js-sub-list"> *@
+                            <ul class="list-unstyled">
                                 <li>
                                     @Html.ActionLink("Post Office", "PostOfficesListTemplate", "PostOffice")
                                 </li>
@@ -69,54 +71,45 @@
             <header class="header-desktop">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        <div class="header-wrap">
+                        <div class="header-wrap d-flex justify-content-end">
                             <div class="header-button">
                                 <div class="account-wrap">
-                                    <div class="account-item clearfix js-item-menu">
-                                        <div class="image">
-                                            <img src="/images/icon/avatar-01.jpg" alt="John Doe" />
-                                        </div>
-                                        <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
-                                        </div>
-                                        <div class="account-dropdown js-dropdown">
-                                            <div class="info clearfix">
-                                                <div class="image">
-                                                    <a href="#">
-                                                        <img src="/images/icon/avatar-01.jpg" alt="John Doe" />
-                                                    </a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <div class="account-item clearfix js-item-menu">
+                                            <div class="content">
+                                                <a class="js-acc-btn" href="#">@User.FindFirst(x => x.Type == ClaimTypes.Name).Value</a>
+                                            </div>
+                                            <div class="account-dropdown js-dropdown">
+                                                <div class="info clearfix">
+                                                    <div class="content">
+                                                        <h5 class="name">
+                                                            <a href="#">@User.FindFirst(x => x.Type == ClaimTypes.Name).Value</a>
+                                                        </h5>
+                                                        <span class="email">@User.FindFirst(x => x.Type == ClaimTypes.Email).Value</span>
+                                                    </div>
                                                 </div>
-                                                <div class="content">
-                                                    <h5 class="name">
-                                                        <a href="#">john doe</a>
-                                                    </h5>
-                                                    <span class="email">johndoe@example.com</span>
+                                                <div class="account-dropdown__body">
+                                                    <div class="account-dropdown__item">
+                                                        <a href="#">
+                                                            <i class="zmdi zmdi-account"></i>Account
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="account-dropdown__footer">
+                                                    <form method="post" asp-action="Logout" asp-controller="User" id="logout">
+                                                        <a>
+                                                            <i class="zmdi zmdi-power"></i>Logout
+                                                        </a>
+                                                    </form>
                                                 </div>
                                             </div>
-                                            <div class="account-dropdown__body">
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-account"></i>Account
-                                                    </a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-settings"></i>Setting
-                                                    </a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-money-box"></i>Billing
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="account-dropdown__footer">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Logout
-                                                </a>
-                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Login", "Login", "User")
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -163,6 +156,15 @@
     <!-- Main JS-->
     <script src="/js/main.js"></script>
     <script src="/js/site.js"></script>
+
+    <!-- Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        logout();
+    </script>
+
     @RenderSection("Scripts", false)
 </body>
 

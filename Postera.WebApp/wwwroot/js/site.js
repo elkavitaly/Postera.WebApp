@@ -26,6 +26,15 @@
     return responseText;
 }
 
+function logout() {
+    document.querySelector("#logout").addEventListener("click",
+        function (event) {
+            event.preventDefault();
+            let form = event.target.closest("form");
+            form.submit();
+        });
+}
+
 async function getItemsList(itemType) {
     let tableBody = document.querySelector(`#itemsList`);
     let items = await sendRequest(`/${itemType}`);
@@ -110,11 +119,11 @@ async function registerAddModal(itemType) {
     let type = itemType.toLowerCase();
 
     let func;
-    if (type == "postoffice") {
+    if (type == "postoffices") {
         func = displayPostOfficeModal;
-    } else if (type == "storagecompany") {
+    } else if (type == "storagecompanys") {
         func = displayStorageCompanyModal;
-    } else if (type == "storage") {
+    } else if (type == "storages") {
         func = displayStorageModal;
     } else {
         func = displayPostOfficeModal;
@@ -137,17 +146,26 @@ async function displayPostOfficeModal() {
     let modalWindow = await sendRequest(`/postOffices/modal`);
     document.querySelector("#modalWindowBlock").innerHTML += modalWindow;
 
+    let form = document.querySelector("#modalWindowBlock .modal #addForm");
+    $.validator.unobtrusive.parse(form);
+
     onModalDisplay();
-    await registerPostOfficeAdd(onPostOfficeAddModalSubmit);
+    await registerAddButtonClick(onPostOfficeAdd);
 }
 
 async function registerAddButtonClick(callback) {
-    let button = document.querySelector("#create");
-    button.addEventListener("click", callback);
+    let form = document.querySelector("#modalWindowBlock .modal #addForm");
+    form.addEventListener("submit", callback);
 }
 
-async function onPostOfficeAddModalSubmit() {
+async function onPostOfficeAdd(event) {
+    event.preventDefault();
+    if (!$("#modalWindowBlock .modal #addForm").valid()) {
+        return;
+    }
+
     let form = document.querySelector("#addForm");
+
     let formData = new FormData(form);
     let parameters = new URLSearchParams(formData);
 
@@ -166,18 +184,20 @@ async function displayStorageCompanyModal() {
     let modalWindow = await sendRequest(`/storageCompanys/modal`);
     document.querySelector("#modalWindowBlock").innerHTML += modalWindow;
 
+    let form = document.querySelector("#modalWindowBlock .modal #addForm");
+    $.validator.unobtrusive.parse(form);
+
     onModalDisplay();
-    await registerStorageCompanyAdd();
-}
-
-async function registerStorageCompanyAdd() {
-    let button = document.querySelector("#create");
-    button.addEventListener("click", onStorageCompanyAddModalSubmit);
-
+    await registerAddButtonClick(onStorageCompanyAdd);
     registerAddStorage();
 }
 
-async function onStorageCompanyAddModalSubmit() {
+async function onStorageCompanyAdd() {
+    event.preventDefault();
+    if (!$("#modalWindowBlock .modal #addForm").valid()) {
+        return;
+    }
+
     let form = document.querySelector("#addForm");
     let formData = new FormData(form);
     let parameters = new URLSearchParams(formData);
@@ -256,62 +276,125 @@ async function getStorages(type, id) {
     tableBody.innerHTML = items;
 }
 
+async function displayStorageModal() {
+    var id = document.querySelector("#Id").value;
+    var type = document.querySelector("#Type").value;
+    let modalWindow = await sendRequest(`/storages/${type}/${id}/modal`);
+    document.querySelector("#modalWindowBlock").innerHTML += modalWindow;
+
+    //get storageCompanies for select list
+    let response = await sendRequest("/storageCompanys/json");
+    let storageCompanys = JSON.parse(response);
+
+    let selectElement = document.querySelector("#modalWindowBlock .modal #storage-company");
+    for (let storageCompany of storageCompanys) {
+        let option = `<option value="${storageCompany.id}">${storageCompany.name}</option>`;
+        selectElement.innerHTML += option;
+    }
+
+    selectElement.addEventListener("change", onStorageCompanySelected);
+    // add event listener to select and load storages on changes
+
+    onModalDisplay();
+    if (type == "postOffices") {
+        await registerAddButtonClick(onStorageToPostOfficeAdd);
+    } else {
+        await registerAddButtonClick(onStorageToStorageCompanyAdd);
+    }
+}
+
+async function onStorageToPostOfficeAdd() {
+    let parameters = {};
+    let selectStorageElement = document.querySelector("#modalWindowBlock .modal #storage");
+    let storageId = selectStorageElement.options[selectStorageElement.selectedIndex].value;
+    if (!storageId) {
+        let selectCompanyElement = document.querySelector("#modalWindowBlock .modal #storage-company");
+        let companyId = selectCompanyElement.options[selectCompanyElement.selectedIndex].value;
+        if (!companyId) {
+            return;
+        }
+
+        parameters["StorageCompanyId"] = companyId;
+    } else {
+        parameters["Id"] = storageId;
+    }
+
+    let body = JSON.stringify(parameters);
+    let headers = { 'Content-Type': 'application/json' };
+    var postOfficeId = document.querySelector("#Id").value;
+
+    await sendRequest(`/postOffices/${postOfficeId}/storages`, "post", body, headers);
+}
+
+function onStorageToStorageCompanyAdd() {
+
+}
+
+async function onStorageCompanySelected(event) {
+    let selectElement = document.querySelector("#modalWindowBlock .modal #storage");
+
+    let companyId = event.target.options[event.target.selectedIndex].value;
+    if (!companyId) {
+        for (let i = selectElement.options.length - 1; i > 0; i--) {
+            selectElement.remove(i);
+        }
+
+        selectElement.closest("div").classList.add("disabled");
+        return;
+    }
+
+    let response = await sendRequest(`/storageCompanys/${companyId}/storages/json`);
+    let storages = JSON.parse(response);
+
+    for (let storageCompany of storages) {
+        let option = `<option value="${storageCompany.id}">${storageCompany.name}</option>`;
+        selectElement.innerHTML += option;
+    }
+
+    selectElement.closest("div.disabled").classList.remove("disabled");
+}
+
 ///////////////// edit post office section ///////////////
-
-//async function addEditButton(element) {
-//    element.addEventListener("click",
-//        async function (event) {
-//            if (event.target.closest("div").className.includes("edit-button")) {
-//                let id = event.target.closest("div.edit-button").id;
-//                await onPostOfficeEditButtonClick(id);
-//            }
-
-//            if (event.target.closest("div").className.includes("delete-button")) {
-//                let id = event.target.closest("div.delete-button").id;
-//                await onPostOfficeDeleteButtonClick(id);
-//            }
-//        });
-//}
-
-//async function onPostOfficeEditButtonClick(id) {
-//    let modal = await sendRequest(`/postOffices/${id}/modal`);
-//    document.querySelector("#modalWindowBlock").innerHTML += modal;
-
-//    onModalDisplay();
-//    await registerPostOfficeAdd(onPostOfficeEditModalSubmit);
-//}
 
 async function addEditDeleteButton(element, type) {
     let editFunction;
     if (type.toLowerCase() == "postoffices") {
-        editFunction = onPostOfficeEditModalSubmit;
+        editFunction = onPostOfficeEdit;
     } else if (type.toLowerCase() == "storagecompanys") {
-        editFunction = onStorageCompanyEditModalSubmit;
+        editFunction = onStorageCompanyEdit;
     }
 
     element.addEventListener("click",
         async function (event) {
             if (event.target.closest("div").className.includes("edit-button")) {
                 let id = event.target.closest("div.edit-button").id;
-                await onEditButtonClick(id, type, editFunction);
+                await getEditModal(id, type, editFunction);
             }
 
             if (event.target.closest("div").className.includes("delete-button")) {
                 let id = event.target.closest("div.delete-button").id;
-                await onDeleteButtonClick(id, type);
+                await onDelete(id, type);
             }
         });
 }
 
-async function onEditButtonClick(id, type, callback) {
+async function getEditModal(id, type, callback) {
     let modal = await sendRequest(`/${type}/${id}/modal`);
     document.querySelector("#modalWindowBlock").innerHTML += modal;
+
+    let form = document.querySelector("#modalWindowBlock .modal #addForm");
+    $.validator.unobtrusive.parse(form);
 
     onModalDisplay();
     await registerAddButtonClick(callback);
 }
 
-async function onPostOfficeEditModalSubmit() {
+async function onPostOfficeEdit() {
+    event.preventDefault();
+    if (!$("#modalWindowBlock .modal #addForm").valid()) {
+        return;
+    }
+
     let form = document.querySelector("#addForm");
     let formData = new FormData(form);
     let parameters = new URLSearchParams(formData);
@@ -322,7 +405,7 @@ async function onPostOfficeEditModalSubmit() {
     getItemsList("postOffices");
 }
 
-async function onDeleteButtonClick(id, type) {
+async function onDelete(id, type) {
     await sendRequest(`/${type}/${id}`, "delete");
 
     getItemsList(`${type}`);
@@ -330,7 +413,12 @@ async function onDeleteButtonClick(id, type) {
 
 ///////////////// edit storage company section ///////////////
 
-async function onStorageCompanyEditModalSubmit() {
+async function onStorageCompanyEdit() {
+    event.preventDefault();
+    if (!$("#modalWindowBlock .modal #addForm").valid()) {
+        return;
+    }
+
     let form = document.querySelector("#addForm");
     let formData = new FormData(form);
     let parameters = new URLSearchParams(formData);
@@ -339,4 +427,34 @@ async function onStorageCompanyEditModalSubmit() {
 
     onModalClose();
     getItemsList("storageCompanys");
+}
+
+
+////////////// statistics ////////////
+
+async function getActiveStorages(type, id) {
+    let response = await sendRequest(`/${type}/${id}/storages/json`);
+    let storages = JSON.parse(response);
+
+    let element = document.querySelector("h2#storagesCount");
+    let textElement = document.createTextNode(storages.length);
+    element.appendChild(textElement);
+}
+
+async function getOrdersStatistics(type, id) {
+    let response = await sendRequest(`/${type}/${id}/orders/json`);
+    let orders = JSON.parse(response);
+
+    let countElement = document.querySelector("h2#ordersCount");
+    let textCountElement = document.createTextNode(orders.length);
+    countElement.appendChild(textCountElement);
+
+    let sum = 0;
+    for (let order of orders) {
+        sum += parseFloat(order.price);
+    }
+
+    let sumElement = document.querySelector("h2#ordersSum");
+    let textSumElement = document.createTextNode(sum);
+    sumElement.appendChild(textSumElement);
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -10,8 +11,13 @@ namespace Postera.WebApp.Helpers
     {
         public static ClaimsPrincipal CreateTokenClaimsPrincipal(string token)
         {
-            var claim = new Claim(ClaimTypes.NameIdentifier, token);
-            var claims = new List<Claim> { claim };
+            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = jwtSecurityTokenHandler.ReadJwtToken(token);
+            
+            var tokenClaim = new Claim(ClaimTypes.Authentication, token);
+            var claims = jwtSecurityToken.Claims.ToList();
+            claims.Add(tokenClaim);
+
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
@@ -20,7 +26,7 @@ namespace Postera.WebApp.Helpers
 
         public static string GetTokenFromClaims(ClaimsPrincipal user)
         {
-            var token = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var token = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication)?.Value;
             if (token == null)
             {
                 throw new ArgumentNullException(nameof(token));

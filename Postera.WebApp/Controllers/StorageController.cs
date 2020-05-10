@@ -43,6 +43,15 @@ namespace Postera.WebApp.Controllers
 
             return View(storageCompanies);
         }
+        
+        [HttpGet("/{type}/{id}/storages/json")]
+        public async Task<IActionResult> GetStorages([FromRoute]SearchParameters parameters)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var storageCompanies = await _adminService.GetStorages(parameters.Id, parameters.Type, token);
+
+            return Ok(storageCompanies);
+        }
 
         [HttpGet("/storages/{id}")]
         public async Task<IActionResult> GetStorage(Guid id)
@@ -57,6 +66,18 @@ namespace Postera.WebApp.Controllers
         public IActionResult GetStorageSection()
         {
             return View();
+        }
+
+        [HttpGet("/storages/postOffices/{id}/modal")]
+        public IActionResult GetPostOfficeBindModal([FromRoute] SearchParameters searchParameters)
+        {
+            return View("GetStorageToPostOfficeAddModal", searchParameters);
+        }
+
+        [HttpGet("/storages/storageCompanys/{id}/modal")]
+        public IActionResult GetStorageCompanyBindModal([FromRoute] SearchParameters searchParameters)
+        {
+            return View("GetStorageToStorageCompanyAddModal");
         }
     }
 }

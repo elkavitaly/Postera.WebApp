@@ -9,6 +9,10 @@
                 </button>
             </div>
         </div>
+        <div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Type" />
+        </div>
         <div class="table-responsive table-responsive-data2">
             <table class="table table-data2">
                 <thead>
@@ -30,6 +34,6 @@
 @section Scripts {
     <script>
         getStorages("@Model.Type", "@Model.Id");
-        registerAddModal("@Model");
+        registerAddModal("storages");
     </script>
 }

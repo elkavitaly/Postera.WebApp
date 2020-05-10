@@ -19,7 +19,7 @@ namespace Postera.WebApp.Controllers
             _adminService = adminService;
         }
 
-        [HttpGet("/{type}s/{itemId}/orders")]
+        [HttpGet("/{type}/{itemId}/orders")]
         public async Task<IActionResult> GetOrders(string type, Guid itemId, [FromQuery]SelectParameters selectParameters)
         {
             string query = null;
@@ -32,6 +32,21 @@ namespace Postera.WebApp.Controllers
             var orders = await _adminService.GetOrders(itemId, type, token, query);
 
             return View(orders);
+        }
+
+        [HttpGet("/{type}/{itemId}/orders/json")]
+        public async Task<IActionResult> GetOrdersList(Guid itemId, string type, [FromQuery]SelectParameters selectParameters)
+        {
+            string query = null;
+            if (selectParameters.OrderBy != null || selectParameters.Skip != null || selectParameters.Take != null)
+            {
+                query = HttpContext.Request.QueryString.Value;
+            }
+
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var orders = await _adminService.GetOrders(itemId, type, token, query);
+
+            return Ok(orders);
         }
 
         [HttpGet("/orders/{id}")]

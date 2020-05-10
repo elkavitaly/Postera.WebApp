@@ -21,7 +21,7 @@
                             </div>
                             <div class="text">
                                 <!-- TODO: calculate orders count  -->
-                                <h2>10368</h2>
+                                <h2 id="ordersCount"></h2>
                                 <span>Orders</span>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             </div>
                             <!-- TODO: calculate storages for post offices  -->
                             <div class="text">
-                                <h2>388,688</h2>
+                                <h2 id="storagesCount"></h2>
                                 <span>active storages</span>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                             <i class="zmdi zmdi-money"></i>
                         </div>
                         <div class="text">
-                            <h2>$1,060,386</h2>
+                            <h2 id="ordersSum"></h2>
                             <span>total earnings</span>
                         </div>
                     </div>
@@ -197,6 +197,8 @@
 </div>
 @section Scripts {
     <script>
-        getLatestOrders("@Model.Id", "storageCompany");
+        getLatestOrders("@Model.Id", "storageCompanys");
+        getActiveStorages("storageCompanys", "@Model.Id");
+        getOrdersStatistics("storageCompanys", "@Model.Id");
     </script>
 }

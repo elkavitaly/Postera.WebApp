@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Postera.WebApp.Data;
 using Postera.WebApp.Data.Models;
 using Postera.WebApp.Helpers;
@@ -84,9 +86,9 @@ namespace Postera.WebApp.Controllers
 
             return Ok();
         }
-        
+
         [HttpDelete("/postOffices/{id}")]
-        public async Task<IActionResult> EditPostOffice(Guid id)
+        public async Task<IActionResult> DeletePostOffice(Guid id)
         {
             var token = ClaimsHelper.GetTokenFromClaims(User);
             await _adminService.DeletePostOffice(id, token);
@@ -98,8 +100,8 @@ namespace Postera.WebApp.Controllers
         public async Task<IActionResult> AddPostOffice(Guid id, [FromBody]Dictionary<string, string> param)
         {
             var token = ClaimsHelper.GetTokenFromClaims(User);
-            //var createdPostOffice = await _adminService.AddPostOffice(postOffice, token);
-            // TODO: add storages to post office
+            await _adminService.BindStoragesToPostOffice(id, param, token);
+
             return Ok();
         }
     }
