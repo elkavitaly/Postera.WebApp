@@ -1,0 +1,20 @@
+﻿@model IList<Postera.WebApp.Data.Models.Order>
+@{
+    Layout = null;
+}
+
+@if (Model == null)
+{
+    return;
+}
+
+@foreach (var order in Model)
+{
+    <tr id="@order.Id" class="orderRow">
+        <td>@order.Id</td>
+        <td>@order.Status</td>
+        <td>@order.Price</td>
+        <td>@order.ArriveDate</td>
+    </tr>
+    <tr class="spacer"></tr>
+}

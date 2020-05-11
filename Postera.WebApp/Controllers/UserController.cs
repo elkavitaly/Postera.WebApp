@@ -66,5 +66,14 @@ namespace Postera.WebApp.Controllers
         {
             return View();
         }
+
+        [HttpGet("/users/{email}")]
+        public async Task<IActionResult> GetUser(string email)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var user = await _adminService.GetUser(email, token);
+
+            return Ok(user);
+        }
     }
 }

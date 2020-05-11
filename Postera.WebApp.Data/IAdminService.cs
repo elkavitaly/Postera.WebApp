@@ -13,8 +13,10 @@ namespace Postera.WebApp.Data
 
         Task<Order> GetOrder(Guid id, string token);
 
+        Task AddOrder(Order order, string token);
+
         Task<IList<PostOffice>> GetPostOffices(string token);
-        
+
         Task<IList<PostOffice>> GetPostOffices();
 
         Task<PostOffice> GetPostOffice(Guid id, string token);
@@ -44,6 +46,8 @@ namespace Postera.WebApp.Data
         Task CreateStoragesCompany(Guid id, IList<Storage> storages, string token);
 
         Task<string> GetToken(LoginModel loginModel);
+
+        Task<User> GetUser(string email, string token);
 
         Task<User> Register(RegisterModel registerModel);
     }

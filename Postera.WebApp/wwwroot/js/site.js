@@ -19,7 +19,7 @@
             if (response.status == 401) {
                 document.location.replace("/user/login");
             }
-
+            
             return response.text();
         });
 
@@ -465,18 +465,10 @@ async function getOrdersStatistics(type, id) {
 //////////////// account page //////////////
 
 async function getUserOrders() {
-    let response = await sendRequest(`/users/orders/json`);
-    let orders = JSON.parse(response);
+    let orders = await sendRequest(`/users/orders`);
 
-    let tableBody = document.querySelector("#itemsList");
-    for (let order of orders) {
-        let element = `<tr id="${order.id}" class="orderRow">
-                            <td>${order.sendDate}</td>
-                            <td>${order.id}</td>
-                            <td class="text-right">${order.price}</td>
-                        </tr>`;
-        tableBody.innerHTML += element;
-    }
+    let tableBody = document.querySelector("#orders");
+    tableBody.innerHTML = orders;
 }
 
 async function getPostOffices() {
@@ -541,4 +533,30 @@ async function onCitySelected(event, storages, addressSelect) {
         let option = `<option value="${storage.id}">${storage.address.street}, ${storage.address.house}</option>`;
         addressSelect.innerHTML += option;
     }
+
+}
+
+function checkDestinationUser() {
+    let input = document.querySelector("#DestinationClientEmail");
+    input.addEventListener("change", onUserDestinationSelected);
+}
+
+async function onUserDestinationSelected(event) {
+    let email = event.target.value;
+    let response = await sendRequest(`/users/${email}`);
+
+    document.querySelector("#userSection").classList.add("disabled");
+    if (!response) {
+        let span = document.querySelector("span[data-valmsg-for='DestinationClientEmail']");
+        span.classList.remove("field-validation-valid");
+        span.classList.add("field-validation-no-valid");
+
+        return;
+    }
+
+    let user = JSON.parse(response);
+    document.querySelector("#userFirstName").value = user.firstName;
+    document.querySelector("#userLastName").value = user.lastName;
+
+    document.querySelector("#userSection").classList.remove("disabled");
 }

@@ -12,7 +12,7 @@
                     <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="addItemButton">
                         <i class="zmdi zmdi-plus"></i>add item
                     </button>
-                </a>s
+                </a>
             </div>
         </div>
         <div class="table-responsive table-responsive-data2">
@@ -20,13 +20,12 @@
                 <thead>
                     <tr>
                         <th>number</th>
-                        <th>city</th>
-                        <th>address</th>
                         <th>status</th>
+                        <th>price</th>
                         <th>arrive at</th>
                     </tr>
                 </thead>
-                <tbody id="itemsList">
+                <tbody id="orders">
                 </tbody>
             </table>
         </div>
@@ -35,5 +34,6 @@
 @section Scripts {
     <script>
         getUserOrders();
+        registerOrderModal();
     </script>
 }

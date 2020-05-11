@@ -1,5 +1,7 @@
 ﻿@model Postera.WebApp.Data.Models.Order
-
+@{
+    Layout = "_UserLayout";
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateOrder" asp-controller="Order">
@@ -42,6 +44,16 @@
                 <input asp-for="DestinationClientEmail" class="form-control" />
                 <span asp-validation-for="DestinationClientEmail" class="text-danger"></span>
             </div>
+            <div id="userSection" class="form-group disabled">
+                <div form-group>
+                    <label for="userFirstName">First name</label>
+                    <input id="userFirstName" class="form-control" readonly="readonly" />
+                </div>
+                <div form-group>
+                    <label for="userLastName">Last name</label>
+                    <input id="userLastName" class="form-control" readonly="readonly" />
+                </div>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -52,5 +64,6 @@
 {
     <script>
         getPostOffices();
+        checkDestinationUser();
     </script>
 }

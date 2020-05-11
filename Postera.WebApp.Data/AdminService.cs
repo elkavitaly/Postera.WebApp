@@ -61,6 +61,17 @@ namespace Postera.WebApp.Data
             return order;
         }
 
+        public async Task AddOrder(Order order, string token)
+        {
+            var serializedOrder = JsonConvert.SerializeObject(order);
+            var content = new StringContent(serializedOrder, Encoding.UTF8, "application/json");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/orders/draft");
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            httpRequestMessage.Content = content;
+
+            await _client.SendRequest<string>(httpRequestMessage);
+        }
+
         public async Task<IList<PostOffice>> GetPostOffices(string token)
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/admin/postOffices");
@@ -164,7 +175,7 @@ namespace Postera.WebApp.Data
                 type = routeType;
             }
 
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/admin/{type}/{id}/storages");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/{type}/{id}/storages");
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var storages = await _client.SendRequest<IList<Storage>>(httpRequestMessage);
@@ -237,6 +248,16 @@ namespace Postera.WebApp.Data
             var token = await _client.SendRequest<string>(httpRequestMessage);
 
             return token;
+        }
+
+        public async Task<User> GetUser(string email, string token)
+        {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/users/{email}");
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var user = await _client.SendRequest<User>(httpRequestMessage);
+
+            return user;
         }
 
         public Task<User> Register(RegisterModel registerModel)

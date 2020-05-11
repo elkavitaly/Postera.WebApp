@@ -49,7 +49,7 @@ namespace Postera.WebApp.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("/users/orders/json")]
+        [HttpGet("/users/orders")]
         public async Task<IActionResult> GetOrdersByUser([FromQuery]SelectParameters selectParameters)
         {
             string query = null;
@@ -61,7 +61,7 @@ namespace Postera.WebApp.Controllers
             var token = ClaimsHelper.GetTokenFromClaims(User);
             var orders = await _adminService.GetOrders(token, query);
 
-            return Ok(orders);
+            return View(orders);
         }
 
         [HttpGet("/orders/{id}")]
@@ -93,12 +93,14 @@ namespace Postera.WebApp.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
-        public IActionResult CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(Order order)
         {
-            //add order
-            return View();
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            await _adminService.AddOrder(order, token);
+
+            return RedirectToAction("Account", "User");
         }
     }
 }
