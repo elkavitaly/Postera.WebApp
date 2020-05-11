@@ -60,5 +60,11 @@ namespace Postera.WebApp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult Account()
+        {
+            return View();
+        }
     }
 }

@@ -330,7 +330,6 @@ section {
 .page-wrapper {
     overflow: hidden;
     background: #e5e5e5;
-    padding-bottom: 8vh;
 }
 
 @media (max-width: 991px) {
@@ -400,6 +399,11 @@ section {
 .login-logo {
     text-align: center;
     margin-bottom: 30px;
+    height: 80px;
+}
+
+.login-logo img {
+    height: 80px;
 }
 
 .login-checkbox {

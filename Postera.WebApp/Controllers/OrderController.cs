@@ -49,6 +49,21 @@ namespace Postera.WebApp.Controllers
             return Ok(orders);
         }
 
+        [HttpGet("/users/orders/json")]
+        public async Task<IActionResult> GetOrdersByUser([FromQuery]SelectParameters selectParameters)
+        {
+            string query = null;
+            if (selectParameters.OrderBy != null || selectParameters.Skip != null || selectParameters.Take != null)
+            {
+                query = HttpContext.Request.QueryString.Value;
+            }
+
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var orders = await _adminService.GetOrders(token, query);
+
+            return Ok(orders);
+        }
+
         [HttpGet("/orders/{id}")]
         public async Task<IActionResult> GetOrder(Guid id)
         {
@@ -71,6 +86,19 @@ namespace Postera.WebApp.Controllers
         public IActionResult OrdersTemplate(SearchParameters parameters)
         {
             return View(parameters);
+        }
+
+        [HttpGet]
+        public IActionResult CreateOrder()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public IActionResult CreateOrder(Order order)
+        {
+            //add order
+            return View();
         }
     }
 }

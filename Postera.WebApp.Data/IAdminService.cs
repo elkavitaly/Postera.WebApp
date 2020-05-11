@@ -9,9 +9,13 @@ namespace Postera.WebApp.Data
     {
         Task<IList<Order>> GetOrders(Guid itemId, string itemType, string token, string query = null);
 
+        Task<IList<Order>> GetOrders(string token, string query = null);
+
         Task<Order> GetOrder(Guid id, string token);
 
         Task<IList<PostOffice>> GetPostOffices(string token);
+        
+        Task<IList<PostOffice>> GetPostOffices();
 
         Task<PostOffice> GetPostOffice(Guid id, string token);
 

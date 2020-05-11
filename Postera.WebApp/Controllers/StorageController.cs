@@ -43,7 +43,7 @@ namespace Postera.WebApp.Controllers
 
             return View(storageCompanies);
         }
-        
+
         [HttpGet("/{type}/{id}/storages/json")]
         public async Task<IActionResult> GetStorages([FromRoute]SearchParameters parameters)
         {

@@ -333,13 +333,10 @@ function onStorageToStorageCompanyAdd() {
 async function onStorageCompanySelected(event) {
     let selectElement = document.querySelector("#modalWindowBlock .modal #storage");
 
+    cleanSelectList(selectElement);
+    selectElement.closest("div").classList.add("disabled");
     let companyId = event.target.options[event.target.selectedIndex].value;
     if (!companyId) {
-        for (let i = selectElement.options.length - 1; i > 0; i--) {
-            selectElement.remove(i);
-        }
-
-        selectElement.closest("div").classList.add("disabled");
         return;
     }
 
@@ -352,6 +349,12 @@ async function onStorageCompanySelected(event) {
     }
 
     selectElement.closest("div.disabled").classList.remove("disabled");
+}
+
+function cleanSelectList(selectElement) {
+    for (let i = selectElement.options.length - 1; i > 0; i--) {
+        selectElement.remove(i);
+    }
 }
 
 ///////////////// edit post office section ///////////////
@@ -457,4 +460,85 @@ async function getOrdersStatistics(type, id) {
     let sumElement = document.querySelector("h2#ordersSum");
     let textSumElement = document.createTextNode(sum);
     sumElement.appendChild(textSumElement);
+}
+
+//////////////// account page //////////////
+
+async function getUserOrders() {
+    let response = await sendRequest(`/users/orders/json`);
+    let orders = JSON.parse(response);
+
+    let tableBody = document.querySelector("#itemsList");
+    for (let order of orders) {
+        let element = `<tr id="${order.id}" class="orderRow">
+                            <td>${order.sendDate}</td>
+                            <td>${order.id}</td>
+                            <td class="text-right">${order.price}</td>
+                        </tr>`;
+        tableBody.innerHTML += element;
+    }
+}
+
+async function getPostOffices() {
+    let response = await sendRequest("/postOffices/json");
+    let postOffices = JSON.parse(response);
+
+    let postOfficeSelect = document.querySelector("#PostOfficeId");
+    for (let postOffice of postOffices) {
+        let option = `<option value="${postOffice.id}">${postOffice.name}</option>`;
+        postOfficeSelect.innerHTML += option;
+    }
+
+    postOfficeSelect.addEventListener("change", onPostOfficeSelected);
+}
+
+async function onPostOfficeSelected(event) {
+    let sourceStorages = document.querySelector("#SourceStorageId");
+    let destinationStorages = document.querySelector("#DestinationStorageId");
+
+    cleanSelectList(sourceStorages);
+    cleanSelectList(destinationStorages);
+
+    let postOfficeId = event.target.options[event.target.selectedIndex].value;
+    if (!postOfficeId) {
+        return;
+    }
+
+    let response = await sendRequest(`/postOffices/${postOfficeId}/storages/json`);
+    let storages = JSON.parse(response);
+
+    let sourceCitySelect = document.querySelector("#sourceCity");
+    let destinationCitySelect = document.querySelector("#destinationCity");
+
+    for (let storage of storages) {
+        let option = `<option value="${storage.address.city}">${storage.address.city}</option>`;
+        sourceCitySelect.innerHTML += option;
+        destinationCitySelect.innerHTML += option;
+    }
+
+    sourceCitySelect.addEventListener("change",
+        async function (event) {
+            onCitySelected(event, storages, sourceStorages);
+        });
+
+    destinationCitySelect.addEventListener("change",
+        async function (event) {
+            onCitySelected(event, storages, destinationStorages);
+        });
+}
+
+async function onCitySelected(event, storages, addressSelect) {
+    let selectedCity = event.target.options[event.target.selectedIndex].value;
+    let storageListByCity = [];
+    for (let storage of storages) {
+        if (storage.address.city == selectedCity) {
+            storageListByCity.push(storage);
+        }
+    }
+
+    cleanSelectList(addressSelect);
+    for (let storage of storageListByCity) {
+        let option = `<option value="${storage.id}">${storage.address.street}, ${storage.address.house}</option>`;
+        addressSelect.innerHTML += option;
+    }
 }

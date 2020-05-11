@@ -1,0 +1,56 @@
+﻿@model Postera.WebApp.Data.Models.Order
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateOrder" asp-controller="Order">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PostOfficeId" class="control-label">Post office service</label>
+                <select asp-for="PostOfficeId" class="form-control">
+                    <option value="">Select service</option>
+                </select>
+                <span asp-validation-for="PostOfficeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="sourceCity" class="control-label">Source city</label>
+                <select id="sourceCity" class="form-control">
+                    <option value="">Select source city</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SourceStorageId" class="control-label">Source storage</label>
+                <select asp-for="SourceStorageId" class="form-control">
+                    <option value="">Select source</option>
+                </select>
+                <span asp-validation-for="SourceStorageId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="destinationCity" class="control-label">Destination city</label>
+                <select id="destinationCity" class="form-control">
+                    <option value="">Select destination city</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DestinationStorageId" class="control-label">Destination city</label>
+                <select asp-for="DestinationStorageId" class="form-control">
+                    <option value="">Select destination</option>
+                </select>
+                <span asp-validation-for="DestinationStorageId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DestinationClientEmail" class="control-label">Receiver email</label>
+                <input asp-for="DestinationClientEmail" class="form-control" />
+                <span asp-validation-for="DestinationClientEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        getPostOffices();
+    </script>
+}

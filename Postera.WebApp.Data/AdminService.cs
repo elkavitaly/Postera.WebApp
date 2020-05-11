@@ -35,6 +35,22 @@ namespace Postera.WebApp.Data
             return orders;
         }
 
+        public async Task<IList<Order>> GetOrders(string token, string query = null)
+        {
+            var url = "/api/users/orders";
+            if (query != null)
+            {
+                url += query;
+            }
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var orders = await _client.SendRequest<IList<Order>>(httpRequestMessage);
+
+            return orders;
+        }
+
         public async Task<Order> GetOrder(Guid id, string token)
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/orders/{id}");
@@ -49,6 +65,15 @@ namespace Postera.WebApp.Data
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/admin/postOffices");
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var postOffices = await _client.SendRequest<IList<PostOffice>>(httpRequestMessage);
+
+            return postOffices;
+        }
+
+        public async Task<IList<PostOffice>> GetPostOffices()
+        {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/postOffices");
 
             var postOffices = await _client.SendRequest<IList<PostOffice>>(httpRequestMessage);
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace Postera.WebApp.Models
 {
     public class ErrorViewModel

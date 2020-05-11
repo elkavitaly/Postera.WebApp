@@ -1,8 +1,147 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
     ViewData["Title"] = "Home Page";
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/mainpage.css">
+    <link rel="stylesheet" href="~/css/authorization.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="/images/logo_transparent.png" alt="">
+        </div>
+        <div class="header-items">
+            <div class="header-item">
+                <a class="header-item-link" value="header" href="@Url.Action("Index","Home")">Home</a>
+            </div>
+            <div class="header-item">
+                <a class="header-item-link" value="about" href="@Url.Action("Index","Home")">About</a>
+            </div>
+            <div class="header-item">
+                <a class="header-item-link" value="contacts" href="@Url.Action("Index","Home")">Contacts</a>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+
+                <div class="header-item">
+                    <a class="header-item-link auth-link" asp-controller="User" asp-action="Account">Account</a>
+                </div>
+                <div class="header-item">
+                    <form id="logout" action="/user/logout" method="post">
+                        <a class="header-item-link auth-link" asp-controller="User" asp-action="Logout">Logout</a>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="header-item">
+                    <a class="header-item-link auth-link" asp-controller="User" asp-action="Login">Login</a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="plot">
+        <img src="~/images/logistics.jpg">
+        @*<div class="plot-main-text">OpenTheWorld</div>
+        <div class="plot-text">SimplifyYourRoutine</div>*@
+    </div>
+    <div class="features">
+        <div class="features-items">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="~/images/box.png">
+                </div>
+                <div class="feature-header">Choose best service</div>
+                <div class="feature-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="~/images/warehouse.png">
+                </div>
+                <div class="feature-header">Use any warehouse</div>
+                <div class="feature-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="~/images/nfc.png">
+                </div>
+                <div class="feature-header">Send in one touch</div>
+                <div class="feature-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
+            </div>
+        </div>
+    </div>
+    <div class="about">
+        <div class="about-section-image">
+            <img src="~/images/stock.jpg" alt="">
+        </div>
+        <div class="about-section">
+            <div class="about-section-header">About</div>
+            <div class="about-section-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
+        </div>
+    </div>
+    <div class="contacts">
+        <div class="contacts-header">Contacts</div>
+        <div class="contacts-info">
+            <div class="contacts-form">
+                <div class="contacts-info-block">
+                    <div class="contacts-info-item-label">Email</div>
+                    <div class="contacts-info-item-value">postera@gmail.com</div>
+                </div>
+                <div class="contacts-info-block">
+                    <div class="contacts-info-item-label">Phone</div>
+                    <div class="contacts-info-item-value">+38 (000) 000-000-00</div>
+                </div>
+                <div class="contacts-info-block">
+                    <div class="contacts-info-item-label">Telegram</div>
+                    <div class="contacts-info-item-value">@@Postera</div>
+                </div>
+            </div>
+            <div class="contacts-form">
+                <div class="contacts-form-email">
+                    <input type="text" placeholder="Email">
+                </div>
+                <div class="contacts-form-text">
+                    <textarea placeholder="Body"></textarea>
+                </div>
+                <div class="contacts-form-submit">
+                    <button type="button">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        @*<div class="footer-column"></div>*@
+        <div class="footer-column">&copy;Vitaly Volohovsky</div>
+        @*<div class="footer-column">@await Html.PartialAsync("SelectLanguage")</div>*@
+    </div>
+    <script src="~/js/site.js"></script>
+    <script>
+        logout();
+    </script>
+    <script>
+        (function scrollFunction() {
+            var header = document.querySelector(".header-items");
+            header.addEventListener("click",
+                function (event) {
+                    var element = event.target;
+                    if (element.className.includes("header-item-link") && !element.className.includes("auth-link")) {
+                        event.preventDefault();
+                        var url = element.getAttribute("value");
+                        var elementToScroll = document.querySelector(`.${url}`);
+                        elementToScroll.scrollIntoView({ block: "start", behavior: "smooth" });
+                    }
+                });
+        })();
+    </script>
+</body>
+</html>
