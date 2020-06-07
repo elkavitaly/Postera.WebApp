@@ -3,7 +3,9 @@
         function (event) {
             let target = event.target;
             if (target.tagName == "SELECT") {
+                event.stopPropagation();
                 let row = target.closest("tr");
+
                 displayControls(row);
             }
         });
@@ -11,55 +13,64 @@
 
 function displayControls(element) {
     let statusComponent = element.querySelector(".statusChangeComponent");
-    let controlsBlock = createControls(statusComponent);
+    removeControls(statusComponent);
+
+    let controlsBlock = createControls();
     statusComponent.appendChild(controlsBlock);
 }
 
-function createControls(statusComponent) {
-    let selectList = statusComponent.querySelector("select");
-    let statusInitialValue = selectList.options[selectList.selectedIndex].value;
-
+function createControls() {
     let selectControls = document.createElement("div");
-    selectControls.classList.add("selectControls");
+    selectControls.classList.add("selectControls", "form-group");
 
     let applyButton = document.createElement("button");
     applyButton.id = "applyStatus";
     applyButton.classList.add("form-control", "btn-primary");
-    applyButton.value = "Apply";
+    applyButton.addEventListener("click", onApply);
+
+    let applyText = document.createTextNode("Apply");
+    applyButton.appendChild(applyText);
 
     let cancelButton = document.createElement("button");
     cancelButton.id = "cancelStatus";
-    cancelButton.classList.add("form-control", "btn-group");
-    cancelButton.value = "Cancel";
-    cancelButton.dataset.initialState = statusInitialValue;
+    cancelButton.classList.add("form-control", "btn-light");
     cancelButton.addEventListener("click", onCancel);
+
+    let cancelText = document.createTextNode("Cancel");
+    cancelButton.appendChild(cancelText);
 
     selectControls.appendChild(applyButton);
     selectControls.appendChild(cancelButton);
+
+    return selectControls;
 }
 
-function onApply(event) {
+async function onApply(event) {
     let orderId = event.target.closest("tr").id;
     let statusComponent = event.target.closest(".statusChangeComponent");
     let selectList = statusComponent.querySelector("select");
     let statusValue = selectList.options[selectList.selectedIndex].value;
 
-    await sendRequest(`orders/${orderId}/${statusValue}`);
+    await sendRequest(`/orders/${orderId}/${statusValue}`, "post");
 
     removeControls(statusComponent);
+    event.stopPropagation();
 }
 
 function onCancel(event) {
     let statusComponent = event.target.closest(".statusChangeComponent");
     removeControls(statusComponent);
+    event.stopPropagation();
 }
 
 function removeControls(statusComponent) {
     let controlsBlock = statusComponent.querySelector(".selectControls");
-    let cancelButton = statusComponent.querySelector("#cancelStatus");
-    let statusInitialValue = cancelButton.dataset.initialState;
+    if (controlsBlock == null) {
+        return;
+    }
 
     let selectList = statusComponent.querySelector("select");
+    let statusInitialValue = selectList.dataset.initial_state;
     selectList.querySelector(`option[value=${statusInitialValue}]`).selected = "selected";
 
     statusComponent.removeChild(controlsBlock);

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Postera.WebApp.Data;
+using Postera.WebApp.Data.Enums;
 using Postera.WebApp.Data.Models;
 using Postera.WebApp.Helpers;
 using Postera.WebApp.Models;
@@ -109,6 +110,12 @@ namespace Postera.WebApp.Controllers
             var token = ClaimsHelper.GetTokenFromClaims(User);
             await _adminService.DeleteOrder(id, token);
 
+            return Ok();
+        }
+        
+        [HttpPost("/orders/{id}/{status}")]
+        public async Task<IActionResult> ChangeStatus(Guid id, OrderStatus status)
+        {
             return Ok();
         }
     }

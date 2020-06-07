@@ -59,6 +59,10 @@ async function registerOrderModal() {
     let table = document.querySelector("#orders");
     table.addEventListener("click",
         async function (event) {
+            if (event.target.closest(".statusChangeComponent") != null) {
+                return;
+            }
+
             if (event.target.closest("tr").className == "orderRow") {
                 let id = event.target.closest("tr").id;
                 displayOrderModal(id);

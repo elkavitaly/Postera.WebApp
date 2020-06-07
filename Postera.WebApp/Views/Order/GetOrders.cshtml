@@ -1,5 +1,4 @@
-﻿@using Postera.WebApp.Data.Enums
-@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.Order>
+﻿@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.Order>
 
 @{
     Layout = null;
@@ -11,7 +10,7 @@
         <td>@order.Id</td>
         <td class="text-right">@order.Price</td>
         <td class="text-right">
-            @await Html.PartialAsync("EditStatusComponent", order);
+            @await Html.PartialAsync("EditStatusComponent", order)
         </td>
     </tr>
 }

@@ -15,6 +15,7 @@
                         <th>@Resources.Date</th>
                         <th>@Resources.OrderId</th>
                         <th class="text-right">@Resources.Total</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="orders">
@@ -26,11 +27,11 @@
 
 
 @section Scripts {
-    <script src="js/changeStatusComponent.js"></script>
+    <script src="/js/changeStatusComponent.js"></script>
     <script>
-        getOrders("@Model.Id", "@Model.Type");
-        registerOrderModal();
         var tableBody = document.querySelector("#orders");
         registerChangeStatusComponent(tableBody);
+        getOrders("@Model.Id", "@Model.Type");
+        registerOrderModal();
     </script>
 }
