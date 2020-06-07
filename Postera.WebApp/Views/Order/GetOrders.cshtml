@@ -11,7 +11,7 @@
         <td>@order.Id</td>
         <td class="text-right">@order.Price</td>
         <td class="text-right">
-            <select asp-items="Html.GetEnumSelectList<OrderStatus>()"></select>
+            @await Html.PartialAsync("EditStatusComponent", order);
         </td>
     </tr>
 }

@@ -11,11 +11,11 @@
         <div class="table-responsive table--no-card m-b-40">
             <table class="table table-borderless table-striped table-earning">
                 <thead>
-                <tr>
-                    <th>@Resources.Date</th>
-                    <th>@Resources.OrderId</th>
-                    <th class="text-right">@Resources.Total</th>
-                </tr>
+                    <tr>
+                        <th>@Resources.Date</th>
+                        <th>@Resources.OrderId</th>
+                        <th class="text-right">@Resources.Total</th>
+                    </tr>
                 </thead>
                 <tbody id="orders">
                 </tbody>
@@ -26,8 +26,11 @@
 
 
 @section Scripts {
+    <script src="js/changeStatusComponent.js"></script>
     <script>
         getOrders("@Model.Id", "@Model.Type");
         registerOrderModal();
+        var tableBody = document.querySelector("#orders");
+        registerChangeStatusComponent(tableBody);
     </script>
 }

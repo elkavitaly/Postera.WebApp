@@ -1,0 +1,16 @@
+﻿@using Postera.WebApp.Data.Enums
+@model Postera.WebApp.Data.Models.Order
+
+@{
+    Layout = null;
+    var statusList = new SelectList(Enum.GetNames(typeof(OrderStatus)), Model.Status);
+}
+
+
+<div class="statusChangeComponent">
+    <select asp-items="statusList" id="@Model.Id" class="statusSelectList" class="form-control"></select>
+    @*<div class="selectControls">
+        <button id="applyStatus" class="form-control btn-primary">Apply</button>
+        <button id="cancelStatus" data-initialState="" class="form-control btn-group">Cancel</button>
+    </div>*@
+</div>
