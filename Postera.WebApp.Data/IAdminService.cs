@@ -15,6 +15,8 @@ namespace Postera.WebApp.Data
 
         Task AddOrder(Order order, string token);
 
+        Task DeleteOrder(Guid id, string token);
+
         Task<IList<PostOffice>> GetPostOffices(string token);
 
         Task<IList<PostOffice>> GetPostOffices();

@@ -1,4 +1,5 @@
-﻿@model Postera.WebApp.Data.Models.Order
+﻿@using Postera.WebApp.Resources
+@model Postera.WebApp.Data.Models.Order
 @{
     Layout = "_UserLayout";
 }
@@ -7,55 +8,55 @@
         <form asp-action="CreateOrder" asp-controller="Order">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PostOfficeId" class="control-label">Post office service</label>
+                <label asp-for="PostOfficeId" class="control-label">@Resources.PostOfficeService</label>
                 <select asp-for="PostOfficeId" class="form-control">
-                    <option value="">Select service</option>
+                    <option value="">@Resources.SelectService</option>
                 </select>
                 <span asp-validation-for="PostOfficeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="sourceCity" class="control-label">Source city</label>
+                <label for="sourceCity" class="control-label">@Resources.SourceCity</label>
                 <select id="sourceCity" class="form-control">
-                    <option value="">Select source city</option>
+                    <option value="">@Resources.SelectSourceCity</option>
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="SourceStorageId" class="control-label">Source storage</label>
+                <label asp-for="SourceStorageId" class="control-label">@Resources.SourceStorage</label>
                 <select asp-for="SourceStorageId" class="form-control">
-                    <option value="">Select source</option>
+                    <option value="">@Resources.SelectSourceStorage</option>
                 </select>
                 <span asp-validation-for="SourceStorageId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="destinationCity" class="control-label">Destination city</label>
+                <label for="destinationCity" class="control-label">@Resources.DestinationCity</label>
                 <select id="destinationCity" class="form-control">
-                    <option value="">Select destination city</option>
+                    <option value="">@Resources.SelectDestinationCity</option>
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="DestinationStorageId" class="control-label">Destination city</label>
+                <label asp-for="DestinationStorageId" class="control-label">@Resources.DestinationStorage</label>
                 <select asp-for="DestinationStorageId" class="form-control">
-                    <option value="">Select destination</option>
+                    <option value="">@Resources.SelectDestinationStorage</option>
                 </select>
                 <span asp-validation-for="DestinationStorageId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DestinationClientEmail" class="control-label">Receiver email</label>
+                <label asp-for="DestinationClientEmail" class="control-label">@Resources.ReceiverEmail</label>
                 <input asp-for="DestinationClientEmail" class="form-control" />
                 <span asp-validation-for="DestinationClientEmail" class="text-danger"></span>
             </div>
             <div id="userSection" class="form-group disabled">
                 <div form-group>
-                    <label for="userFirstName">First name</label>
+                    <label for="userFirstName">@Resources.FirstName</label>
                     <input id="userFirstName" class="form-control" readonly="readonly" />
                 </div>
                 <div form-group>
-                    <label for="userLastName">Last name</label>
+                    <label for="userLastName">@Resources.LastName</label>
                     <input id="userLastName" class="form-control" readonly="readonly" />
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@Resources.Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

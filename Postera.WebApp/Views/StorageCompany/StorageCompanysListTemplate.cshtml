@@ -1,10 +1,11 @@
-﻿<div class="row">
+﻿@using Postera.WebApp.Resources
+<div class="row">
     <div class="col-md-12">
-        <h3 class="title-5 m-b-35">storage company</h3>
+        <h3 class="title-5 m-b-35">@Resources.StorageCompany</h3>
         <div class="table-data__tool">
             <div class="table-data__tool-left">
                 <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="addItemButton">
-                    <i class="zmdi zmdi-plus"></i>add item
+                    <i class="zmdi zmdi-plus"></i>@Resources.AddItem
                 </button>
             </div>
         </div>
@@ -12,9 +13,9 @@
             <table class="table table-data2">
                 <thead>
                     <tr>
-                        <th>name</th>
-                        <th>email</th>
-                        <th>address</th>
+                        <th>@Resources.Name</th>
+                        <th>@Resources.Email</th>
+                        <th>@Resources.Address</th>
                     </tr>
                 </thead>
                 <tbody id="itemsList">

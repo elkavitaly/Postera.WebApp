@@ -1,4 +1,6 @@
 ﻿@using System.Security.Claims
+@using Postera.WebApp.Data.Models
+@using Postera.WebApp.Resources
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +44,7 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
+                <a asp-controller="Home" asp-action="Index">
                     <img src="/images/logo_transparent.png" alt="Postera" />
                 </a>
             </div>
@@ -52,10 +54,10 @@
                         <li class="active has-sub">
                             <ul class="list-unstyled">
                                 <li>
-                                    @Html.ActionLink("Post Office", "PostOfficesListTemplate", "PostOffice")
+                                    @Html.ActionLink(Resources.PostOffice, "PostOfficesListTemplate", "PostOffice")
                                 </li>
                                 <li>
-                                    @Html.ActionLink("Storage Company", "StorageCompanysListTemplate", "StorageCompany")
+                                    @Html.ActionLink(Resources.StorageCompany, "StorageCompanysListTemplate", "StorageCompany")
                                 </li>
                             </ul>
                         </li>
@@ -88,14 +90,14 @@
                                                 <div class="account-dropdown__body">
                                                     <div class="account-dropdown__item">
                                                         <a href="/user/account">
-                                                            <i class="zmdi zmdi-account"></i>Account
+                                                            <i class="zmdi zmdi-account"></i>@Resources.Account
                                                         </a>
                                                     </div>
                                                 </div>
                                                 <div class="account-dropdown__footer">
                                                     <form method="post" asp-action="Logout" asp-controller="User" id="logout">
                                                         <a>
-                                                            <i class="zmdi zmdi-power"></i>Logout
+                                                            <i class="zmdi zmdi-power"></i>@Resources.Logout
                                                         </a>
                                                     </form>
                                                 </div>
@@ -104,7 +106,7 @@
                                     }
                                     else
                                     {
-                                        @Html.ActionLink("Login", "Login", "User")
+                                        @Html.ActionLink(Resources.Login, "Login", "User")
                                     }
                                 </div>
                             </div>
@@ -122,6 +124,7 @@
             <div id="modalWindowBlock"></div>
             <div class="footer">
                 <div class="footer-column">&copy;Vitaly Volohovsky</div>
+                <div class="footer-column">@await Html.PartialAsync("SelectLanguage")</div>
             </div>
         </div>
     </div>

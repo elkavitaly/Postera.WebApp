@@ -50,7 +50,7 @@ namespace Postera.WebApp.Controllers
 
             await _adminService.Register(credentials);
 
-            return RedirectToAction();
+            return RedirectToAction("Login");
         }
 
         [HttpPost]

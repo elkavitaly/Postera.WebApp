@@ -1,4 +1,5 @@
-﻿@model Postera.WebApp.Data.Models.StorageCompany
+﻿@using Postera.WebApp.Resources
+@model Postera.WebApp.Data.Models.StorageCompany
 @{
     Layout = null;
 }
@@ -8,7 +9,7 @@
         <div class="modal-content">
             <form id="addForm">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="scrollmodalLabel">Storage</h5>
+                    <h5 class="modal-title" id="scrollmodalLabel">@Resources.Storage</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -18,59 +19,59 @@
                         <div class="card-body card-block">
                             <input type="hidden" asp-for="Id"/>
                             <div class="form-group">
-                                <label for="company" class=" form-control-label">Company</label>
-                                <input type="text" asp-for="Name" placeholder="Enter your company name" class="form-control">
+                                <label for="company" class=" form-control-label">@Resources.Company</label>
+                                <input type="text" asp-for="Name" placeholder="@Resources.EnterName" class="form-control">
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label for="vat" class=" form-control-label">Email</label>
-                                <input type="text" asp-for="Email" placeholder="Enter company email" class="form-control">
+                                <label for="vat" class=" form-control-label">@Resources.Email</label>
+                                <input type="text" asp-for="Email" placeholder="@Resources.EnterEmail" class="form-control">
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label for="street" class=" form-control-label">Phone</label>
-                                <input type="text" asp-for="Phone" placeholder="Enter company phone" class="form-control">
+                                <label for="street" class=" form-control-label">@Resources.Phone</label>
+                                <input type="text" asp-for="Phone" placeholder="@Resources.EnterPhone" class="form-control">
                                 <span asp-validation-for="Phone" class="text-danger"></span>
                             </div>
                             <div class="row form-group">
                                 <div class="col-8">
                                     <div class="form-group">
-                                        <label for="city" class=" form-control-label">Country</label>
-                                        <input type="text" asp-for="Address.Country" placeholder="Enter country" class="form-control">
+                                        <label for="city" class=" form-control-label">@Resources.Country</label>
+                                        <input type="text" asp-for="Address.Country" placeholder="@Resources.EnterCountry" class="form-control">
                                         <span asp-validation-for="Address.Country" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-8">
                                     <div class="form-group">
-                                        <label for="postal-code" class=" form-control-label">City</label>
-                                        <input type="text" asp-for="Address.City" placeholder="Enter city" class="form-control">
+                                        <label for="postal-code" class=" form-control-label">@Resources.City</label>
+                                        <input type="text" asp-for="Address.City" placeholder="@Resources.EnterCity" class="form-control">
                                         <span asp-validation-for="Address.City" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-8">
                                     <div class="form-group">
-                                        <label for="postal-code" class=" form-control-label">Street</label>
-                                        <input type="text" asp-for="Address.Street" placeholder="Enter street" class="form-control">
+                                        <label for="postal-code" class=" form-control-label">@Resources.Street</label>
+                                        <input type="text" asp-for="Address.Street" placeholder="@Resources.EnterStreet" class="form-control">
                                         <span asp-validation-for="Address.Street" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-8">
                                     <div class="form-group">
-                                        <label for="postal-code" class=" form-control-label">Building number</label>
-                                        <input type="text" asp-for="Address.House" placeholder="Enter building number" class="form-control">
+                                        <label for="postal-code" class=" form-control-label">@Resources.BuildingNumber</label>
+                                        <input type="text" asp-for="Address.House" placeholder="@Resources.EnterBuildingNumber" class="form-control">
                                         <span asp-validation-for="Address.House" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row form-group" id="storages"></div>
                             <div class="row">
-                                <button type="button" id="addStorage">Add storage</button>
+                                <button type="button" id="addStorage">@Resources.AddStorage</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="create" class="btn btn-primary">Create</button>
+                    <button type="submit" id="create" class="btn btn-primary">@Resources.Create</button>
                 </div>
             </form>
         </div>

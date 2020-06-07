@@ -387,12 +387,12 @@ section {
 
 .page-content--bge5 {
     background: #e5e5e5;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .login-wrap {
     max-width: 540px;
-    padding-top: 8vh;
+    padding-top: 2vh;
     margin: 0 auto;
 }
 

@@ -102,5 +102,14 @@ namespace Postera.WebApp.Controllers
 
             return RedirectToAction("Account", "User");
         }
+
+        [HttpDelete("/orders/{id}")]
+        public async Task<IActionResult> DeleteOrder(Guid id)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            await _adminService.DeleteOrder(id, token);
+
+            return Ok();
+        }
     }
 }

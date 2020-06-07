@@ -72,6 +72,14 @@ namespace Postera.WebApp.Data
             await _client.SendRequest<string>(httpRequestMessage);
         }
 
+        public async Task DeleteOrder(Guid id, string token)
+        {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, $"/api/orders/{id}");
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            await _client.SendRequest<string>(httpRequestMessage);
+        }
+
         public async Task<IList<PostOffice>> GetPostOffices(string token)
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/admin/postOffices");
@@ -260,9 +268,18 @@ namespace Postera.WebApp.Data
             return user;
         }
 
-        public Task<User> Register(RegisterModel registerModel)
+        public async Task<User> Register(RegisterModel registerModel)
         {
-            throw new NotImplementedException();
+            var serializedStorages = JsonConvert.SerializeObject(registerModel);
+            var content = new StringContent(serializedStorages, Encoding.UTF8, "application/json");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"/users/register")
+            {
+                Content = content
+            };
+
+            var user = await _client.SendRequest<User>(httpRequestMessage);
+
+            return user;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using Postera.WebApp.Resources
 @{
     ViewData["Title"] = "Home Page";
     Layout = null;
@@ -22,38 +23,36 @@
         </div>
         <div class="header-items">
             <div class="header-item">
-                <a class="header-item-link" value="header" href="@Url.Action("Index","Home")">Home</a>
+                <a class="header-item-link" value="header" href="@Url.Action("Index","Home")">@Resources.Home</a>
             </div>
             <div class="header-item">
-                <a class="header-item-link" value="about" href="@Url.Action("Index","Home")">About</a>
+                <a class="header-item-link" value="about" href="@Url.Action("Index","Home")">@Resources.About</a>
             </div>
             <div class="header-item">
-                <a class="header-item-link" value="contacts" href="@Url.Action("Index","Home")">Contacts</a>
+                <a class="header-item-link" value="contacts" href="@Url.Action("Index","Home")">@Resources.Contacts</a>
             </div>
             @if (User.Identity.IsAuthenticated)
             {
 
                 <div class="header-item">
-                    <a class="header-item-link auth-link" asp-controller="User" asp-action="Account">Account</a>
+                    <a class="header-item-link auth-link" asp-controller="User" asp-action="Account">@Resources.Account</a>
                 </div>
                 <div class="header-item">
                     <form id="logout" action="/user/logout" method="post">
-                        <a class="header-item-link auth-link" asp-controller="User" asp-action="Logout">Logout</a>
+                        <a class="header-item-link auth-link" asp-controller="User" asp-action="Logout">@Resources.Logout</a>
                     </form>
                 </div>
             }
             else
             {
                 <div class="header-item">
-                    <a class="header-item-link auth-link" asp-controller="User" asp-action="Login">Login</a>
+                    <a class="header-item-link auth-link" asp-controller="User" asp-action="Login">@Resources.Login</a>
                 </div>
             }
         </div>
     </div>
     <div class="plot">
         <img src="~/images/logistics.jpg">
-        @*<div class="plot-main-text">OpenTheWorld</div>
-        <div class="plot-text">SimplifyYourRoutine</div>*@
     </div>
     <div class="features">
         <div class="features-items">
@@ -61,21 +60,21 @@
                 <div class="feature-icon">
                     <img src="~/images/box.png">
                 </div>
-                <div class="feature-header">Choose best service</div>
+                <div class="feature-header">@Resources.ChooseBestService</div>
                 <div class="feature-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
             </div>
             <div class="feature-item">
                 <div class="feature-icon">
                     <img src="~/images/warehouse.png">
                 </div>
-                <div class="feature-header">Use any warehouse</div>
+                <div class="feature-header">@Resources.UseAnyWarehouse</div>
                 <div class="feature-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
             </div>
             <div class="feature-item">
                 <div class="feature-icon">
                     <img src="~/images/nfc.png">
                 </div>
-                <div class="feature-header">Send in one touch</div>
+                <div class="feature-header">@Resources.SendInOneTouch</div>
                 <div class="feature-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
             </div>
         </div>
@@ -85,44 +84,43 @@
             <img src="~/images/stock.jpg" alt="">
         </div>
         <div class="about-section">
-            <div class="about-section-header">About</div>
+            <div class="about-section-header">@Resources.About</div>
             <div class="about-section-text">TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText TextTextTextText </div>
         </div>
     </div>
     <div class="contacts">
-        <div class="contacts-header">Contacts</div>
+        <div class="contacts-header">@Resources.Contacts</div>
         <div class="contacts-info">
             <div class="contacts-form">
                 <div class="contacts-info-block">
-                    <div class="contacts-info-item-label">Email</div>
+                    <div class="contacts-info-item-label">@Resources.Email </div>
                     <div class="contacts-info-item-value">postera@gmail.com</div>
                 </div>
                 <div class="contacts-info-block">
-                    <div class="contacts-info-item-label">Phone</div>
+                    <div class="contacts-info-item-label">@Resources.Phone </div>
                     <div class="contacts-info-item-value">+38 (000) 000-000-00</div>
                 </div>
                 <div class="contacts-info-block">
-                    <div class="contacts-info-item-label">Telegram</div>
+                    <div class="contacts-info-item-label">Telegram </div>
                     <div class="contacts-info-item-value">@@Postera</div>
                 </div>
             </div>
             <div class="contacts-form">
                 <div class="contacts-form-email">
-                    <input type="text" placeholder="Email">
+                    <input type="text" placeholder="@Resources.Email">
                 </div>
                 <div class="contacts-form-text">
-                    <textarea placeholder="Body"></textarea>
+                    <textarea placeholder="@Resources.Body"></textarea>
                 </div>
                 <div class="contacts-form-submit">
-                    <button type="button">Send</button>
+                    <button type="button">@Resources.Send</button>
                 </div>
             </div>
         </div>
     </div>
     <div class="footer">
-        @*<div class="footer-column"></div>*@
         <div class="footer-column">&copy;Vitaly Volohovsky</div>
-        @*<div class="footer-column">@await Html.PartialAsync("SelectLanguage")</div>*@
+        <div class="footer-column">@await Html.PartialAsync("SelectLanguage")</div>
     </div>
     <script src="~/js/site.js"></script>
     <script>

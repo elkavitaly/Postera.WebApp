@@ -560,3 +560,19 @@ async function onUserDestinationSelected(event) {
 
     document.querySelector("#userSection").classList.remove("disabled");
 }
+
+async function addUserOrderDeleteButton(element) {
+    element.addEventListener("click",
+        async function (event) {
+            if (event.target.closest("div").className.includes("delete-button")) {
+                let id = event.target.closest("div.delete-button").id;
+                await onUserOrderDelete(id);
+            }
+        });
+}
+
+async function onUserOrderDelete(id) {
+    await sendRequest(`/orders/${id}`, "delete");
+
+    await getUserOrders();
+}

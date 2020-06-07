@@ -1,4 +1,5 @@
-﻿@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.Order>
+﻿@using Postera.WebApp.Data.Enums
+@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.Order>
 
 @{
     Layout = null;
@@ -9,5 +10,8 @@
         <td>@order.SendDate</td>
         <td>@order.Id</td>
         <td class="text-right">@order.Price</td>
+        <td class="text-right">
+            <select asp-items="Html.GetEnumSelectList<OrderStatus>()"></select>
+        </td>
     </tr>
 }

@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+
+@{
+    Layout = null;
+}
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures.Select(c => new SelectListItem { Value = c.Name, Text = c.NativeName.ToLower() }).ToList();
+    cultureItems.FirstOrDefault(p => p.Value == requestCulture.RequestCulture.Culture.Name).Selected = true;
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
+<form class="select-language-form" asp-action="SelectLanguage" asp-controller="Language" method="post" asp-route-returnUrl="@returnUrl" id="selectLanguageForm">
+    <select id="selectLanguage" name="culture" asp-items="cultureItems" class="select-language-list" style="height: 30px; width: 120px; border: none; border-radius: 3px; font-size: 15px; background-color: #c9f0f9;"></select>
+</form>
+
+<script>
+    var selectLanguage = document.querySelector("#selectLanguage");
+    selectLanguage.addEventListener("change",
+        function() {
+            document.querySelector("#selectLanguageForm").submit();
+        });
+</script>

@@ -1,4 +1,5 @@
-﻿@model SearchParameters
+﻿@using Postera.WebApp.Resources
+@model SearchParameters
 @{
     Layout = null;
 }
@@ -9,7 +10,7 @@
             <form id="addForm">
                 <input type="hidden" asp-for="Id" />
                 <div class="modal-header">
-                    <h5 class="modal-title" id="scrollmodalLabel">Storage</h5>
+                    <h5 class="modal-title" id="scrollmodalLabel">@Resources.Storage</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -19,15 +20,15 @@
                         <div class="card-body card-block">
                             <div class="row">
                                 <div class="col col-8 form-group">
-                                    <label for="storage-company">Storage company</label>
+                                    <label for="storage-company">@Resources.StorageCompany</label>
                                     <select id="storage-company" class="form-control">
-                                        <option value="">Select company</option>
+                                        <option value="">@Resources.SelectCompany</option>
                                     </select>
                                 </div>
                                 <div class="col col-8 form-group disabled">
-                                    <label for="storage">Storage</label>
+                                    <label for="storage">@Resources.Storage</label>
                                     <select id="storage" class="form-control">
-                                        <option value="">Select storage</option>
+                                        <option value="">@Resources.SelectStorage</option>
                                     </select>
                                 </div>
                             </div>
@@ -35,7 +36,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="create" class="btn btn-primary">Create</button>
+                    <button type="submit" id="create" class="btn btn-primary">@Resources.Create</button>
                 </div>
             </form>
         </div>

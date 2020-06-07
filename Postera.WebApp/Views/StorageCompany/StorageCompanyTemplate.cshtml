@@ -1,4 +1,5 @@
-﻿@model Postera.WebApp.Data.Models.StorageCompany
+﻿@using Postera.WebApp.Resources
+@model Postera.WebApp.Data.Models.StorageCompany
 @{
     ViewData["Title"] = "StorageCompanyTemplate";
 }
@@ -6,7 +7,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="overview-wrap">
-            <h2 class="title-1">overview @Model.Name</h2>
+            <h2 class="title-1">@Resources.Overview @Model.Name</h2>
         </div>
     </div>
     <!-- Link to post office orders -->
@@ -22,7 +23,7 @@
                             <div class="text">
                                 <!-- TODO: calculate orders count  -->
                                 <h2 id="ordersCount"></h2>
-                                <span>Orders</span>
+                                <span>@Resources.Orders</span>
                             </div>
                         </div>
                         <div class="overview-chart">
@@ -44,7 +45,7 @@
                             <!-- TODO: calculate storages for post offices  -->
                             <div class="text">
                                 <h2 id="storagesCount"></h2>
-                                <span>active storages</span>
+                                <span>@Resources.ActiveStorages</span>
                             </div>
                         </div>
                         <div class="overview-chart">
@@ -65,7 +66,7 @@
                             </div>
                             <div class="text">
                                 <h2>1,086</h2>
-                                <span>staff</span>
+                                <span>@Resources.Staff</span>
                             </div>
                         </div>
                         <div class="overview-chart">
@@ -85,7 +86,7 @@
                         </div>
                         <div class="text">
                             <h2 id="ordersSum"></h2>
-                            <span>total earnings</span>
+                            <span>@Resources.TotalEarnings</span>
                         </div>
                     </div>
                     <div class="overview-chart">
@@ -105,11 +106,11 @@
                         <div class="chart-info__left">
                             <div class="chart-note">
                                 <span class="dot dot--blue"></span>
-                                <span>products</span>
+                                <span>@Resources.Products</span>
                             </div>
                             <div class="chart-note mr-0">
                                 <span class="dot dot--green"></span>
-                                <span>services</span>
+                                <span>@Resources.Services</span>
                             </div>
                         </div>
                         <div class="chart-info__right">
@@ -117,13 +118,13 @@
                                 <span class="index incre">
                                     <i class="zmdi zmdi-long-arrow-up"></i>25%
                                 </span>
-                                <span class="label">products</span>
+                                <span class="label">@Resources.Products</span>
                             </div>
                             <div class="chart-statis mr-0">
                                 <span class="index decre">
                                     <i class="zmdi zmdi-long-arrow-down"></i>10%
                                 </span>
-                                <span class="label">services</span>
+                                <span class="label">@Resources.Services</span>
                             </div>
                         </div>
                     </div>
@@ -135,7 +136,7 @@
         </div>
         <div class="col-lg-4 report-block">
             <!-- Get companies where sum by orders is maximum -->
-            <h2 class="title-1">Top companies</h2>
+            <h2 class="title-1">@Resources.TopCompanies</h2>
             <div class="au-card au-card--bg-blue au-card-top-countries">
                 <div class="au-card-inner">
                     <div class="table-responsive">
@@ -178,14 +179,14 @@
     </div>
     <div class="row w-100">
         <div class="col-lg-12">
-            <h2 class="title-1 m-b-25">Latest Orders</h2>
+            <h2 class="title-1 m-b-25">@Resources.LatestOrders</h2>
             <div class="table-responsive table--no-card m-b-40">
                 <table class="table table-borderless table-striped table-earning">
                     <thead>
                         <tr>
-                            <th>date</th>
-                            <th>order ID</th>
-                            <th class="text-right">total</th>
+                            <th>@Resources.Date</th>
+                            <th>@Resources.OrderId</th>
+                            <th class="text-right">@Resources.Total</th>
                         </tr>
                     </thead>
                     <tbody id="latestOrders">

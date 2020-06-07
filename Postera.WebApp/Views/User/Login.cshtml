@@ -1,4 +1,5 @@
-﻿@model Postera.WebApp.Data.Models.LoginModel
+﻿@using Postera.WebApp.Resources
+@model Postera.WebApp.Data.Models.LoginModel
 @{
     ViewData["Title"] = "Login";
     Layout = "_AuthLayout";
@@ -14,19 +15,19 @@
         <div class="login-form">
             <form asp-action="Login", asp-controller="User" method="post">
                 <div class="form-group">
-                    <label>Email Address</label>
-                    <input class="au-input au-input--full" asp-for="Email" placeholder="Email">
+                    <label>@Resources.Email</label>
+                    <input class="au-input au-input--full" asp-for="Email" placeholder="@Resources.Email">
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <input class="au-input au-input--full" type="password" asp-for="Password" placeholder="Password">
+                    <label>@Resources.Password</label>
+                    <input class="au-input au-input--full" type="password" asp-for="Password" placeholder="@Resources.Password">
                 </div>
-                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
+                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">@Resources.SignIn</button>
             </form>
             <div class="register-link">
                 <p>
                     Don't you have account?
-                    @Html.ActionLink("Sign Up Here", "Register", "User")
+                    @Html.ActionLink(Resources.SignUpHere, "Register", "User")
                 </p>
             </div>
         </div>
