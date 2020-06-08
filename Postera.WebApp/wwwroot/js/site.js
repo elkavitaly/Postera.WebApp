@@ -43,7 +43,7 @@ async function getItemsList(itemType) {
 
 async function getLatestOrders(id, type) {
     let tableBody = document.querySelector("#latestOrders");
-    let orders = await sendRequest(`/${type}/${id}/orders?take=10&orderby.field=SendDate`);
+    let orders = await sendRequest(`/${type}/${id}/orders/latest`);
     tableBody.innerHTML = orders;
 }
 
@@ -579,4 +579,27 @@ async function onUserOrderDelete(id) {
     await sendRequest(`/orders/${id}`, "delete");
 
     await getUserOrders();
+}
+
+
+function registerOrderSearch() {
+    let button = document.querySelector("#searchButton");
+    button.addEventListener("click", onSearchOrders);
+
+    let cleanButton = document.querySelector("#cleanButton");
+    cleanButton.addEventListener("click", onSearchClean);
+}
+
+async function onSearchOrders() {
+    let searchValue = document.querySelector("#searchText").value;
+    let orders = await sendRequest(`/orders/search/${searchValue}`);
+
+    let tableBody = document.querySelector("#orders");
+    tableBody.innerHTML = orders;
+}
+
+async function onSearchClean() {
+    let id = document.querySelector("#Id").value;
+    let type = document.querySelector("#Type").value;
+    getOrders(id, type);
 }

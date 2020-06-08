@@ -1,4 +1,9 @@
-﻿function registerChangeStatusComponent(table) {
+﻿let modelOrderId;
+let itemOrderType;
+function registerChangeStatusComponent(table, id, itemType) {
+    modelOrderId = id;
+    itemOrderType = itemType;
+
     table.addEventListener("change",
         function (event) {
             let target = event.target;
@@ -62,6 +67,7 @@ async function onApply(event) {
 
     removeControls(statusComponent);
     event.stopPropagation();
+    await getOrders(modelOrderId, itemOrderType);
 }
 
 function onCancel(event) {

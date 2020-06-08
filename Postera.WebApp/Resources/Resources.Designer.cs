@@ -115,6 +115,15 @@ namespace Postera.WebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Admin Panel.
+        /// </summary>
+        public static string Admin {
+            get {
+                return ResourceManager.GetString("Admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Arrive date.
         /// </summary>
         public static string ArriveDate {

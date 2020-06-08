@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,16 +24,55 @@ namespace Postera.WebApp.Controllers
         [HttpGet("/{type}/{itemId}/orders")]
         public async Task<IActionResult> GetOrders(string type, Guid itemId, [FromQuery]SelectParameters selectParameters)
         {
-            string query = null;
-            if (selectParameters.OrderBy != null || selectParameters.Skip != null || selectParameters.Take != null)
+            var orders = await GetOrdersInternal(type, itemId, selectParameters);
+
+            return View(orders);
+        }
+
+        [HttpGet("/{type}/{itemId}/orders/latest")]
+        public async Task<IActionResult> GetLatestOrders(string type, Guid itemId, [FromQuery]SelectParameters selectParameters)
+        {
+            selectParameters.Take = 10;
+            selectParameters.OrderBy = new OrderBy
             {
-                query = HttpContext.Request.QueryString.Value;
+                Field = nameof(Order.SendDate),
+                SortDirection = SortDirection.Descending
+            };
+
+            var orders = await GetOrdersInternal(type, itemId, selectParameters);
+
+            return View(orders);
+        }
+
+        private async Task<IList<Order>> GetOrdersInternal(string type, Guid itemId, [FromQuery]SelectParameters selectParameters)
+        {
+            string query = string.Empty;
+            if (selectParameters.OrderBy != null)
+            {
+                query += $"{nameof(OrderBy)}.{nameof(OrderBy.Field)}={selectParameters.OrderBy.Field}"
+                         + $"&{nameof(OrderBy)}.{nameof(OrderBy.SortDirection)}={selectParameters.OrderBy.SortDirection}&";
+            }
+
+            if (selectParameters.Skip != null)
+            {
+                query += $"{nameof(SelectParameters.Skip)}={selectParameters.Skip}&";
+            }
+            
+            if (selectParameters.Take != null)
+            {
+                query += $"{nameof(SelectParameters.Take)}={selectParameters.Take}&";
+            }
+
+            if (query != string.Empty)
+            {
+                query = "?" + query;
+                query = query.Trim('&');
             }
 
             var token = ClaimsHelper.GetTokenFromClaims(User);
             var orders = await _adminService.GetOrders(itemId, type, token, query);
 
-            return View(orders);
+            return orders;
         }
 
         [HttpGet("/{type}/{itemId}/orders/json")]
@@ -112,11 +152,22 @@ namespace Postera.WebApp.Controllers
 
             return Ok();
         }
-        
+
         [HttpPost("/orders/{id}/{status}")]
         public async Task<IActionResult> ChangeStatus(Guid id, OrderStatus status)
         {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            await _adminService.ChangeOrderStatus(id, status, token);
             return Ok();
+        }
+        
+        [HttpGet("/orders/search/{searchValue}")]
+        public async Task<IActionResult> SearchOrder(string searchValue)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var orders = await _adminService.SearchOrder(searchValue, token);
+            
+            return View("GetOrders", orders);
         }
     }
 }

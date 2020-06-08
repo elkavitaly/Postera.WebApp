@@ -92,6 +92,14 @@
                                                             <i class="zmdi zmdi-account"></i>@Resources.Account
                                                         </a>
                                                     </div>
+                                                    @if (User.IsInRole("Admin"))
+                                                    {
+                                                        <div class="account-dropdown__item">
+                                                            <a href="/postOffices/template/list">
+                                                                <i class="zmdi zmdi-account"></i>@Resources.Admin
+                                                            </a>
+                                                        </div>
+                                                    }
                                                 </div>
                                                 <div class="account-dropdown__footer">
                                                     <form method="post" asp-action="Logout" asp-controller="User" id="logout">

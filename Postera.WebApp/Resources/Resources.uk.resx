@@ -135,6 +135,9 @@
   <data name="AddStorage" xml:space="preserve">
     <value>Додати склад</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Панель адміністратора</value>
+  </data>
   <data name="ArriveDate" xml:space="preserve">
     <value>Дата прибуття</value>
   </data>

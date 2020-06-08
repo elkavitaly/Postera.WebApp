@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Postera.WebApp.Data.Enums;
 using Postera.WebApp.Data.Helpers;
 using Postera.WebApp.Data.Models;
 
@@ -22,7 +24,7 @@ namespace Postera.WebApp.Data
         public async Task<IList<Order>> GetOrders(Guid itemId, string itemType, string token, string query = null)
         {
             var url = $"/api/admin/{itemType}/{itemId}/orders";
-            if (query != null)
+            if (!string.IsNullOrWhiteSpace(query))
             {
                 url += query;
             }
@@ -31,7 +33,7 @@ namespace Postera.WebApp.Data
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var orders = await _client.SendRequest<IList<Order>>(httpRequestMessage);
-
+            orders = orders.OrderByDescending(x => x.SendDate).ToList();
             return orders;
         }
 
@@ -47,6 +49,7 @@ namespace Postera.WebApp.Data
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var orders = await _client.SendRequest<IList<Order>>(httpRequestMessage);
+            orders = orders.OrderByDescending(x => x.SendDate).ToList();
 
             return orders;
         }
@@ -78,6 +81,24 @@ namespace Postera.WebApp.Data
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             await _client.SendRequest<string>(httpRequestMessage);
+        }
+
+        public async Task ChangeOrderStatus(Guid id, OrderStatus status, string token)
+        {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Put, $"/api/orders/{id}/{status}");
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            await _client.SendRequest<string>(httpRequestMessage);
+        }
+        
+        public async Task<IList<Order>> SearchOrder(string searchValue, string token)
+        {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/users/orders/{searchValue}");
+            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var orders = await _client.SendRequest<IList<Order>>(httpRequestMessage);
+
+            return orders;
         }
 
         public async Task<IList<PostOffice>> GetPostOffices(string token)
@@ -160,6 +181,15 @@ namespace Postera.WebApp.Data
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/admin/storageCompanies");
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var storageCompanies = await _client.SendRequest<IList<StorageCompany>>(httpRequestMessage);
+
+            return storageCompanies;
+        }
+        
+        public async Task<IList<StorageCompany>> GetStorageCompanies()
+        {
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/storageCompanies");
 
             var storageCompanies = await _client.SendRequest<IList<StorageCompany>>(httpRequestMessage);
 

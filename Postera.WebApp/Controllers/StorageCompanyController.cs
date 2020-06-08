@@ -36,8 +36,7 @@ namespace Postera.WebApp.Controllers
         [HttpGet("/storageCompanys/json")]
         public async Task<IActionResult> GetStorageCompaniesList()
         {
-            var token = ClaimsHelper.GetTokenFromClaims(User);
-            var storageCompanies = await _adminService.GetStorageCompanies(token);
+            var storageCompanies = await _adminService.GetStorageCompanies();
 
             return Ok(storageCompanies);
         }

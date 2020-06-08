@@ -135,6 +135,9 @@
   <data name="AddStorage" xml:space="preserve">
     <value>Add storage</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin Panel</value>
+  </data>
   <data name="ArriveDate" xml:space="preserve">
     <value>Arrive date</value>
   </data>

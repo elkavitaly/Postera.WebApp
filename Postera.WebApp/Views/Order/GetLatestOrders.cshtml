@@ -1,0 +1,13 @@
+﻿@model System.Collections.Generic.IList<Postera.WebApp.Data.Models.Order>
+
+@{
+    Layout = null;
+}
+@foreach (var order in Model)
+{
+    <tr id="@order.Id" class="orderRow">
+        <td>@order.SendDate</td>
+        <td>@order.Id</td>
+        <td class="text-right">@order.Price</td>
+    </tr>
+}

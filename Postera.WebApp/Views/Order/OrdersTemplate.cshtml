@@ -6,7 +6,23 @@
 }
 
 <div class="row w-100">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Type" />
     <div class="col-lg-12">
+        <div class="search-container">
+            <div class="search-header">
+                <p>Search</p>
+            </div>
+            <div class="search-body">
+                <div class="search-input-container">
+                    <input type="text" id="searchText" class="form-control" />
+                </div>
+                <div class="search-buttons">
+                    <button type="button" id="searchButton" class="btn-outline-primary form-control">Search</button>
+                    <button type="button" id="cleanButton" class="btn-outline-danger form-control">Clean</button>
+                </div>
+            </div>
+        </div>
         <h2 class="title-1 m-b-25">@Resources.LatestOrders</h2>
         <div class="table-responsive table--no-card m-b-40">
             <table class="table table-borderless table-striped table-earning">
@@ -30,8 +46,9 @@
     <script src="/js/changeStatusComponent.js"></script>
     <script>
         var tableBody = document.querySelector("#orders");
-        registerChangeStatusComponent(tableBody);
+        registerChangeStatusComponent(tableBody, "@Model.Id", "@Model.Type");
         getOrders("@Model.Id", "@Model.Type");
         registerOrderModal();
+        registerOrderSearch();
     </script>
 }
