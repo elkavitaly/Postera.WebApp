@@ -12,6 +12,7 @@
 }
 
 function displayControls(element) {
+    removeExistedControls();
     let statusComponent = element.querySelector(".statusChangeComponent");
     removeControls(statusComponent);
 
@@ -23,21 +24,27 @@ function createControls() {
     let selectControls = document.createElement("div");
     selectControls.classList.add("selectControls", "form-group");
 
-    let applyButton = document.createElement("button");
-    applyButton.id = "applyStatus";
-    applyButton.classList.add("form-control", "btn-primary");
+    //let applyButton = document.createElement("button");
+    //applyButton.id = "applyStatus";
+    //applyButton.classList.add("form-control", "btn-primary");
+    //applyButton.addEventListener("click", onApply);
+
+    //let applyText = document.createTextNode("Apply");
+    //applyButton.appendChild(applyText);
+    let applyButton = document.createElement("input");
+    applyButton.src = "/images/apply.png";
+    applyButton.type = "image";
     applyButton.addEventListener("click", onApply);
 
-    let applyText = document.createTextNode("Apply");
-    applyButton.appendChild(applyText);
-
-    let cancelButton = document.createElement("button");
-    cancelButton.id = "cancelStatus";
-    cancelButton.classList.add("form-control", "btn-light");
+    let cancelButton = document.createElement("input");
+    cancelButton.src = "/images/close.png";
+    cancelButton.type = "image";
     cancelButton.addEventListener("click", onCancel);
 
-    let cancelText = document.createTextNode("Cancel");
-    cancelButton.appendChild(cancelText);
+    //let cancelButton = document.createElement("button");
+    //cancelButton.id = "cancelStatus";
+    //cancelButton.classList.add("form-control", "btn-light");
+    //cancelButton.addEventListener("click", onCancel);
 
     selectControls.appendChild(applyButton);
     selectControls.appendChild(cancelButton);
@@ -61,6 +68,14 @@ function onCancel(event) {
     let statusComponent = event.target.closest(".statusChangeComponent");
     removeControls(statusComponent);
     event.stopPropagation();
+}
+
+function removeExistedControls() {
+    let controls = document.querySelector("#orders .statusChangeComponent .selectControls");
+    if (controls != null) {
+        let statusComponent = controls.closest(".statusChangeComponent");
+        removeControls(statusComponent);
+    }
 }
 
 function removeControls(statusComponent) {
