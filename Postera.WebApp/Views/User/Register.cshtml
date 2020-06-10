@@ -1,4 +1,5 @@
-﻿@model Postera.WebApp.Data.Models.RegisterModel
+﻿@using Postera.WebApp.Resources
+@model Postera.WebApp.Data.Models.RegisterModel
 @{
     ViewData["Title"] = "Login";
     Layout = "_AuthLayout";
@@ -14,36 +15,36 @@
         <div class="login-form">
             <form asp-controller="User" asp-action="Register" method="post">
                 <div class="form-group">
-                    <label asp-for="FirstName"></label>
+                    <label asp-for="FirstName">@Resources.FirstName</label>
                     <input class="au-input au-input--full" asp-for="FirstName" style="height: 30px"/>
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="LastName"></label>
+                    <label asp-for="LastName">@Resources.LastName</label>
                     <input class="au-input au-input--full" asp-for="LastName" style="height: 30px" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Email"></label>
+                    <label asp-for="Email">@Resources.Email</label>
                     <input class="au-input au-input--full" asp-for="Email" style="height: 30px" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password"></label>
+                    <label asp-for="Password">@Resources.Password</label>
                     <input class="au-input au-input--full" asp-for="Password" style="height: 30px" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ConfirmPassword"></label>
+                    <label asp-for="ConfirmPassword">@Resources.ConfirmPassword</label>
                     <input class="au-input au-input--full" asp-for="ConfirmPassword" style="height: 30px"/>
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
-                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
+                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">@Resources.Register</button>
             </form>
             <div class="register-link">
                 <p>
-                    Don't you have account?
-                    @Html.ActionLink("Sign Up Here", "Login", "User")
+                    @Resources.DoHaveAccount
+                    @Html.ActionLink(Resources.SignIn, "Login", "User")
                 </p>
             </div>
         </div>

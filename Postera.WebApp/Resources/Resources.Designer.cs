@@ -70,6 +70,15 @@ namespace Postera.WebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Postera - a company that develops in the field of providing not only software but also hardware with the integration of all components.
+        /// </summary>
+        public static string AboutUs {
+            get {
+                return ResourceManager.GetString("AboutUs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account.
         /// </summary>
         public static string Account {
@@ -160,6 +169,15 @@ namespace Postera.WebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can choose the mail service among many that provides the best services.
+        /// </summary>
+        public static string ChooseBestServiceText {
+            get {
+                return ResourceManager.GetString("ChooseBestServiceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to City.
         /// </summary>
         public static string City {
@@ -174,6 +192,15 @@ namespace Postera.WebApp.Resources {
         public static string Company {
             get {
                 return ResourceManager.GetString("Company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
             }
         }
         
@@ -205,6 +232,15 @@ namespace Postera.WebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Backup.
+        /// </summary>
+        public static string CreateBackup {
+            get {
+                return ResourceManager.GetString("CreateBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to date.
         /// </summary>
         public static string Date {
@@ -228,6 +264,24 @@ namespace Postera.WebApp.Resources {
         public static string DestinationStorage {
             get {
                 return ResourceManager.GetString("DestinationStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you have an account?.
+        /// </summary>
+        public static string DoHaveAccount {
+            get {
+                return ResourceManager.GetString("DoHaveAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t you have account?.
+        /// </summary>
+        public static string DontHaveAccount {
+            get {
+                return ResourceManager.GetString("DontHaveAccount", resourceCulture);
             }
         }
         
@@ -493,6 +547,15 @@ namespace Postera.WebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string Remove {
@@ -597,6 +660,15 @@ namespace Postera.WebApp.Resources {
         public static string SendInOneTouch {
             get {
                 return ResourceManager.GetString("SendInOneTouch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the mobile app to send orders with one click.
+        /// </summary>
+        public static string SendInOneTouchText {
+            get {
+                return ResourceManager.GetString("SendInOneTouchText", resourceCulture);
             }
         }
         
@@ -759,6 +831,15 @@ namespace Postera.WebApp.Resources {
         public static string UseAnyWarehouse {
             get {
                 return ResourceManager.GetString("UseAnyWarehouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The high level of interaction between postal services and branches allows you to choose the best postal service and use it in a convenient branch.
+        /// </summary>
+        public static string UseAnyWarehouseText {
+            get {
+                return ResourceManager.GetString("UseAnyWarehouseText", resourceCulture);
             }
         }
     }

@@ -26,6 +26,7 @@ namespace Postera.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IBackupService, BackupService>();
             services.AddSingleton<IHttpClient, HttpClient>();
 
             var baseUrl = Configuration.GetSection("ServerUrl").Get<string>();

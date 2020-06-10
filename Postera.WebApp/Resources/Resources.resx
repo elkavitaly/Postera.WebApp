@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AboutUs" xml:space="preserve">
+    <value>Postera - a company that develops in the field of providing not only software but also hardware with the integration of all components</value>
+  </data>
   <data name="Account" xml:space="preserve">
     <value>Account</value>
   </data>
@@ -150,11 +153,17 @@
   <data name="ChooseBestService" xml:space="preserve">
     <value>Choose best service</value>
   </data>
+  <data name="ChooseBestServiceText" xml:space="preserve">
+    <value>You can choose the mail service among many that provides the best services</value>
+  </data>
   <data name="City" xml:space="preserve">
     <value>City</value>
   </data>
   <data name="Company" xml:space="preserve">
     <value>Company</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
   </data>
   <data name="Contacts" xml:space="preserve">
     <value>Contacts</value>
@@ -165,6 +174,9 @@
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="CreateBackup" xml:space="preserve">
+    <value>Create Backup</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>date</value>
   </data>
@@ -173,6 +185,12 @@
   </data>
   <data name="DestinationStorage" xml:space="preserve">
     <value>Destination storage</value>
+  </data>
+  <data name="DoHaveAccount" xml:space="preserve">
+    <value>Do you have an account?</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Don't you have account?</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -261,6 +279,9 @@
   <data name="RecentReports" xml:space="preserve">
     <value>recent reports</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
@@ -296,6 +317,9 @@
   </data>
   <data name="SendInOneTouch" xml:space="preserve">
     <value>Send in one touch</value>
+  </data>
+  <data name="SendInOneTouchText" xml:space="preserve">
+    <value>Use the mobile app to send orders with one click</value>
   </data>
   <data name="Services" xml:space="preserve">
     <value>services</value>
@@ -350,5 +374,8 @@
   </data>
   <data name="UseAnyWarehouse" xml:space="preserve">
     <value>Use any warehouse</value>
+  </data>
+  <data name="UseAnyWarehouseText" xml:space="preserve">
+    <value>The high level of interaction between postal services and branches allows you to choose the best postal service and use it in a convenient branch</value>
   </data>
 </root>

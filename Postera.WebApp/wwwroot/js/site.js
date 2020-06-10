@@ -491,9 +491,13 @@ async function getPostOffices() {
 async function onPostOfficeSelected(event) {
     let sourceStorages = document.querySelector("#SourceStorageId");
     let destinationStorages = document.querySelector("#DestinationStorageId");
+    let sourceCities = document.querySelector("#sourceCity");
+    let destinationCities= document.querySelector("#destinationCity");
 
     cleanSelectList(sourceStorages);
     cleanSelectList(destinationStorages);
+    cleanSelectList(sourceCities);
+    cleanSelectList(destinationCities);
 
     let postOfficeId = event.target.options[event.target.selectedIndex].value;
     if (!postOfficeId) {
@@ -505,9 +509,9 @@ async function onPostOfficeSelected(event) {
 
     let sourceCitySelect = document.querySelector("#sourceCity");
     let destinationCitySelect = document.querySelector("#destinationCity");
-
-    for (let storage of storages) {
-        let option = `<option value="${storage.address.city}">${storage.address.city}</option>`;
+    let cities = storages.map(x => x.address.city).filter((value, index, self) => self.indexOf(value) === index);
+    for (let city of cities) {
+        let option = `<option value="${city}">${city}</option>`;
         sourceCitySelect.innerHTML += option;
         destinationCitySelect.innerHTML += option;
     }

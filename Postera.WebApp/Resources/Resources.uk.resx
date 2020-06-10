@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>О нас</value>
   </data>
+  <data name="AboutUs" xml:space="preserve">
+    <value>Postera - компанія, що розвивається у сфері надання не тільки програмного, але й апаратного забезпечення з інтеграцією усіх компонентів</value>
+  </data>
   <data name="Account" xml:space="preserve">
     <value>Акаунт</value>
   </data>
@@ -150,11 +153,17 @@
   <data name="ChooseBestService" xml:space="preserve">
     <value>Оберайте найкращий сервіс</value>
   </data>
+  <data name="ChooseBestServiceText" xml:space="preserve">
+    <value>Ви можете обрати поштовий сервіс серед багатьох, який надає найкращі послуги</value>
+  </data>
   <data name="City" xml:space="preserve">
     <value>Місто</value>
   </data>
   <data name="Company" xml:space="preserve">
     <value>Компанія</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Підтвердіть пароль</value>
   </data>
   <data name="Contacts" xml:space="preserve">
     <value>Контакти</value>
@@ -165,6 +174,9 @@
   <data name="Create" xml:space="preserve">
     <value>Створити</value>
   </data>
+  <data name="CreateBackup" xml:space="preserve">
+    <value>Створити Backup</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
   </data>
@@ -173,6 +185,12 @@
   </data>
   <data name="DestinationStorage" xml:space="preserve">
     <value>Склад доставки</value>
+  </data>
+  <data name="DoHaveAccount" xml:space="preserve">
+    <value>Вже маєте акаунт?</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Немає акаунту?</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Пошта</value>
@@ -258,6 +276,9 @@
   <data name="RecentReports" xml:space="preserve">
     <value>Останні звіти</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Зареєструватися</value>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>Видалити</value>
   </data>
@@ -293,6 +314,9 @@
   </data>
   <data name="SendInOneTouch" xml:space="preserve">
     <value>Відправляйте одним кліком</value>
+  </data>
+  <data name="SendInOneTouchText" xml:space="preserve">
+    <value>Використовуйте мобільний додаток, щоб відправляти замовлення одним кліком</value>
   </data>
   <data name="Services" xml:space="preserve">
     <value>сервіси</value>
@@ -347,5 +371,8 @@
   </data>
   <data name="UseAnyWarehouse" xml:space="preserve">
     <value>Використовуйте будь-яке відділення</value>
+  </data>
+  <data name="UseAnyWarehouseText" xml:space="preserve">
+    <value>Великий рівень взаємодії між поштовими сервісами та відділеннями дозволяє Вам обрати найкращий поштовий сервіс та користуватись їм у зручному відділенні</value>
   </data>
 </root>
