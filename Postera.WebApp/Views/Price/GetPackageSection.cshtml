@@ -1,0 +1,35 @@
+﻿@using Postera.WebApp.Resources
+@model Postera.WebApp.Data.Models.Package
+@{
+    Layout = null;
+}
+
+<div class="col-lg-11">
+    <div class="card-body card-block">
+        <div class="row">
+            <div class="col-10">
+                <div class="row align-items-end">
+                    <div class="form-group col-3">
+                        <label for="weight" class="form-control-label">Weight</label>
+                        <input type="number" asp-for="Weight" class="form-control" min="1">
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="height" class="form-control-label">Height</label>
+                        <input type="number" asp-for="Height" class="form-control" min="1">
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="width" class="form-control-label">Width</label>
+                        <input type="number" asp-for="Width" class="form-control" min="1">
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="depth" class="form-control-label">Depth</label>
+                        <input type="number" asp-for="Depth" class="form-control" min="1">
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 remove-package-button">
+                <button class="removeStorageButton btn btn-danger">@Resources.Remove</button>
+            </div>
+        </div>
+    </div>
+</div>

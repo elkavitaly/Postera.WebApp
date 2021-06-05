@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Postera.WebApp.Data.Enums;
 using Postera.WebApp.Data.Models;
 
-namespace Postera.WebApp.Data
+namespace Postera.WebApp.Data.Interfaces
 {
     public interface IAdminService
     {
@@ -42,7 +42,7 @@ namespace Postera.WebApp.Data
 
         Task<StorageCompany> GetStorageCompany(Guid id, string token);
 
-        Task<IList<Storage>> GetStorages(Guid id, string type, string token);
+        Task<IList<Storage>> GetStorages(Guid id, string type);
 
         Task<Storage> GetStorage(Guid id, string token);
 

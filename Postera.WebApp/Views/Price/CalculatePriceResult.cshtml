@@ -1,0 +1,39 @@
+﻿@model Postera.WebApp.Data.ResponseModels.PriceResult
+
+@{
+    Layout = null;
+}
+
+<div class="col-6 m-b-20 m-t-10 m-l-15 border border-info rounded">
+    <div class="row p-t-10">
+        <div class="col-5">
+            <h3 class="title-5">Calculated price</h3>
+        </div>
+        <div class="col-7">
+            <div class="row">
+                <div class="col-5">
+                    <label class="form-control-label">Price</label>
+                </div>
+                <div class="col-7">
+                    <p>@Model.Price</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <label class="form-control-label">Weight</label>
+                </div>
+                <div class="col-7">
+                    <p>@Model.Weight kg</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <label class="form-control-label">Arrival date</label>
+                </div>
+                <div class="col-7">
+                    <p>@Model.ExpectedArrivalDate.ToShortDateString()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

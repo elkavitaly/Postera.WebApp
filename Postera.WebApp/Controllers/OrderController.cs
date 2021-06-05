@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Postera.WebApp.Data;
 using Postera.WebApp.Data.Enums;
+using Postera.WebApp.Data.Interfaces;
 using Postera.WebApp.Data.Models;
 using Postera.WebApp.Helpers;
 using Postera.WebApp.Models;

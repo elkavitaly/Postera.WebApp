@@ -1,4 +1,4 @@
-﻿namespace Postera.Data.Entities.Enums
+﻿namespace Postera.WebApp.Data.Enums
 {
     public enum RoleType
     {

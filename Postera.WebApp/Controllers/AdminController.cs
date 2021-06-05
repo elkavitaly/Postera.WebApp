@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Postera.WebApp.Data;
+using Postera.WebApp.Data.Interfaces;
 
 namespace Postera.WebApp.Controllers
 {

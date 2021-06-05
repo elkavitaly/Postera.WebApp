@@ -3,11 +3,13 @@
     public enum OrderStatus
     {
         Draft,
-        Pending,
         Approved,
+        PendingDispatch,
         Payed,
-        Go,
+        OnWay,
+        AtCity,
         Arrived,
+        Received,
         Closed
     }
 }

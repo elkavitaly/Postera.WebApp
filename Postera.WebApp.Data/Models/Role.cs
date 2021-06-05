@@ -1,5 +1,5 @@
 ﻿using System;
-using Postera.Data.Entities.Enums;
+using Postera.WebApp.Data.Enums;
 
 namespace Postera.WebApp.Data.Models
 {

@@ -167,3 +167,22 @@ html {
 .search-buttons button {
     margin-left: 10px;
 }
+
+.remove-button {
+    width: 80px;
+    height: 30px;
+    padding: 0;
+    margin-bottom: 1rem;
+    align-self: flex-end;
+}
+
+.remove-package-button {
+    margin-bottom: 1rem;
+    align-self: flex-end;
+}
+
+.map-container {
+    display: flex;
+    width: 500px;
+    height: 500px;
+}

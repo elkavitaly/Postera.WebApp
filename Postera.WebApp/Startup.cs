@@ -11,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Postera.WebApp.Data;
+using Postera.WebApp.Data.Interfaces;
+using Postera.WebApp.Data.Services;
 
 namespace Postera.WebApp
 {
@@ -26,6 +28,8 @@ namespace Postera.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IPriceService, PriceService>();
+            services.AddScoped<ITrackingService, TrackingService>();
             services.AddScoped<IBackupService, BackupService>();
             services.AddSingleton<IHttpClient, HttpClient>();
 

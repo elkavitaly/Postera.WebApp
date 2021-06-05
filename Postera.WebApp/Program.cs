@@ -16,10 +16,6 @@ namespace Postera.WebApp
                     builder.ConfigureKestrel((context, options) =>
                     {
                         options.Configure(context.Configuration.GetSection("Kestrel"));
-                        options.ConfigureHttpsDefaults(adapterOptions =>
-                        {
-                            adapterOptions.ServerCertificate = new X509Certificate2();
-                        });
                     });
                     builder.UseStartup<Startup>();
                     builder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());

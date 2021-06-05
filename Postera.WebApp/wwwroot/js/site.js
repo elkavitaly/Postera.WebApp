@@ -19,7 +19,7 @@
             if (response.status == 401) {
                 document.location.replace("/user/login");
             }
-            
+
             return response.text();
         });
 
@@ -181,7 +181,6 @@ async function onPostOfficeAdd(event) {
     }
 }
 
-
 // storage company
 
 async function displayStorageCompanyModal() {
@@ -254,6 +253,98 @@ async function getStoragesToAdd(result) {
     }
 }
 
+const collectionItemsElementModule = (function () {
+    let _requestUrl = "";
+    let _sectionSelector = "";
+    let _elementSelector = "";
+
+    async function onItemAddClick() {
+        let itemSection = await sendRequest(_requestUrl);
+
+        let container = document.createElement("div");
+        container.setAttribute("class", `row ${_elementSelector}`);
+        container.innerHTML = itemSection;
+
+        let parentElement = document.querySelector(_sectionSelector);
+        parentElement.appendChild(container);
+    }
+
+    function registerCollectionItemsAddButton(addButtonSelector, requestUrl, sectionSelector, elementSelector) {
+        _requestUrl = requestUrl;
+        _sectionSelector = sectionSelector;
+        _elementSelector = elementSelector;
+
+        let button = document.querySelector(addButtonSelector);
+        button.addEventListener("click", onItemAddClick);
+    }
+
+    return {
+        registerAddButton: registerCollectionItemsAddButton
+    };
+})();
+
+const collectionItemsModule = (function () {
+    const formSelector = "#addForm";
+    let _sectionSelector = "";
+    let _elementSelector = "";
+    let _elementName = "";
+    let _submitEventCallback;
+
+    async function onFormSubmit(event) {
+        event.preventDefault();
+
+        let form = document.querySelector(formSelector);
+        let formData = new FormData(form);
+        getSections(form, formData);
+        let parameters = new URLSearchParams(formData);
+
+        _submitEventCallback(parameters);
+    }
+
+    function getSections(formElement, formData) {
+        let sections = formElement.querySelectorAll(`${_sectionSelector} .${_elementSelector}`);
+
+        for (let i = 0; i < sections.length; i++) {
+            let elements = sections[i].querySelectorAll(".form-group input");
+            for (let j = 0; j < elements.length; j++) {
+                let name = elements[j].name;
+                let value = elements[j].value;
+                let key = `${_elementName}[${i}].${name}`;
+                formData.append(key, value);
+            }
+        }
+    }
+
+    async function registerFormSubmitEvent(sectionSelector, elementSelector, elementName, submitEventCallback) {
+        _sectionSelector = sectionSelector;
+        _elementSelector = elementSelector;
+        _elementName = elementName;
+        _submitEventCallback = submitEventCallback;
+
+        let form = document.querySelector(formSelector);
+        form.addEventListener("submit", onFormSubmit);
+    }
+
+    return {
+        registerOnSubmitEvent: registerFormSubmitEvent
+    }
+})();
+
+const submitEventHandlers = (function () {
+    async function onPriceCalculateSubmit(parameters) {
+        let response = await sendRequest("/price", "post", parameters);
+
+        let resultElement = document.querySelector("#priceResult");
+        resultElement.innerHTML = response;
+        
+        document.querySelector(".main-content").scrollIntoView({behavior: "smooth"});
+    }
+
+    return {
+        onPriceCalculate: onPriceCalculateSubmit
+    };
+})();
+
 function convertUrlParamsToObject(urlParams) {
     let result = {};
     for (let entry of urlParams.entries()) {
@@ -324,7 +415,7 @@ async function onStorageToPostOfficeAdd() {
     }
 
     let body = JSON.stringify(parameters);
-    let headers = { 'Content-Type': 'application/json' };
+    let headers = {'Content-Type': 'application/json'};
     var postOfficeId = document.querySelector("#Id").value;
 
     await sendRequest(`/postOffices/${postOfficeId}/storages`, "post", body, headers);
@@ -436,7 +527,6 @@ async function onStorageCompanyEdit() {
     getItemsList("storageCompanys");
 }
 
-
 ////////////// statistics ////////////
 
 async function getActiveStorages(type, id) {
@@ -476,23 +566,27 @@ async function getUserOrders() {
 }
 
 async function getPostOffices() {
-    let response = await sendRequest("/postOffices/json");
-    let postOffices = JSON.parse(response);
-
     let postOfficeSelect = document.querySelector("#PostOfficeId");
-    for (let postOffice of postOffices) {
-        let option = `<option value="${postOffice.id}">${postOffice.name}</option>`;
-        postOfficeSelect.innerHTML += option;
-    }
+
+    await getPostOfficesSelectList(postOfficeSelect);
 
     postOfficeSelect.addEventListener("change", onPostOfficeSelected);
+}
+
+async function getPostOfficesSelectList(selectElement) {
+    let response = await sendRequest("/postOffices/json");
+    let postOffices = JSON.parse(response);
+    for (let postOffice of postOffices) {
+        let option = `<option value="${postOffice.id}">${postOffice.name}</option>`;
+        selectElement.innerHTML += option;
+    }
 }
 
 async function onPostOfficeSelected(event) {
     let sourceStorages = document.querySelector("#SourceStorageId");
     let destinationStorages = document.querySelector("#DestinationStorageId");
     let sourceCities = document.querySelector("#sourceCity");
-    let destinationCities= document.querySelector("#destinationCity");
+    let destinationCities = document.querySelector("#destinationCity");
 
     cleanSelectList(sourceStorages);
     cleanSelectList(destinationStorages);
@@ -585,7 +679,6 @@ async function onUserOrderDelete(id) {
     await getUserOrders();
 }
 
-
 function registerOrderSearch() {
     let button = document.querySelector("#searchButton");
     button.addEventListener("click", onSearchOrders);
@@ -607,3 +700,44 @@ async function onSearchClean() {
     let type = document.querySelector("#Type").value;
     getOrders(id, type);
 }
+
+const priceModule = (function () {
+    async function registerPricePageEvents() {
+        let postOfficeSelect = document.querySelector("#PostOfficeId");
+
+        await getPostOfficesSelectList(postOfficeSelect);
+
+        postOfficeSelect.addEventListener("change", onPostOfficeSelected);
+    }
+
+    async function onPostOfficeSelected(event) {
+        let postOfficeId = event.target.options[event.target.selectedIndex].value;
+        if (!postOfficeId) {
+            return;
+        }
+
+        let response = await sendRequest(`/postOffices/${postOfficeId}/storages/json`);
+        let storages = JSON.parse(response);
+
+        let cities = storages.map(x => x.address.city).filter((value, index, self) => self.indexOf(value) === index);
+
+        let sourceCity = document.querySelector("#SourceAddress_City");
+        setupCitySelectList(sourceCity, cities);
+
+        let destinationCity = document.querySelector("#DestinationAddress_City");
+        setupCitySelectList(destinationCity, cities);
+    }
+
+    function setupCitySelectList(selectElement, cities) {
+        cleanSelectList(selectElement);
+
+        for (let city of cities) {
+            let option = `<option value="${city}">${city}</option>`;
+            selectElement.innerHTML += option;
+        }
+    }
+
+    return {
+        registerEvents: registerPricePageEvents
+    };
+})();

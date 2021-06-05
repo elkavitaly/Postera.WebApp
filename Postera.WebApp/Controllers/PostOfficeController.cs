@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Postera.WebApp.Data;
+using Postera.WebApp.Data.Interfaces;
 using Postera.WebApp.Data.Models;
 using Postera.WebApp.Helpers;
 
@@ -34,10 +35,10 @@ namespace Postera.WebApp.Controllers
             return View(postOffices);
         }
 
+        [AllowAnonymous]
         [HttpGet("/postOffices/json")]
         public async Task<IActionResult> GetPostOffices()
         {
-            var token = ClaimsHelper.GetTokenFromClaims(User);
             var postOffices = await _adminService.GetPostOffices();
 
             return Ok(postOffices);

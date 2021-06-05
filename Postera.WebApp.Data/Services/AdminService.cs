@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Postera.WebApp.Data.Enums;
 using Postera.WebApp.Data.Helpers;
+using Postera.WebApp.Data.Interfaces;
 using Postera.WebApp.Data.Models;
 
-namespace Postera.WebApp.Data
+namespace Postera.WebApp.Data.Services
 {
     public class AdminService : IAdminService
     {
@@ -48,8 +49,11 @@ namespace Postera.WebApp.Data
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var orders = await _client.SendRequest<IList<Order>>(httpRequestMessage);
-            orders = orders.OrderByDescending(x => x.SendDate).ToList();
+            var result = await _client.SendRequest<Result<List<Order>>>(httpRequestMessage);
+            
+            var orders = result.IsSuccess
+                ? result.Data.OrderByDescending(x => x.SendDate).ToList()
+                : new List<Order>();
 
             return orders;
         }
@@ -206,7 +210,7 @@ namespace Postera.WebApp.Data
             return storageCompanies;
         }
 
-        public async Task<IList<Storage>> GetStorages(Guid id, string type, string token)
+        public async Task<IList<Storage>> GetStorages(Guid id, string type)
         {
             if (RouteMapper.RouteValues.TryGetValue(type, out var routeType))
             {
@@ -214,7 +218,6 @@ namespace Postera.WebApp.Data
             }
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/{type}/{id}/storages");
-            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var storages = await _client.SendRequest<IList<Storage>>(httpRequestMessage);
 
@@ -278,7 +281,7 @@ namespace Postera.WebApp.Data
         {
             var serializedData = JsonConvert.SerializeObject(loginModel);
             var content = new StringContent(serializedData, Encoding.UTF8, "application/json");
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, "/users/token")
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/users/token")
             {
                 Content = content
             };
@@ -302,7 +305,7 @@ namespace Postera.WebApp.Data
         {
             var serializedStorages = JsonConvert.SerializeObject(registerModel);
             var content = new StringContent(serializedStorages, Encoding.UTF8, "application/json");
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"/users/register")
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api/users/register")
             {
                 Content = content
             };

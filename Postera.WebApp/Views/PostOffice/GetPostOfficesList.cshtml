@@ -8,7 +8,11 @@
 {
     <tr class="tr-shadow">
         <td>
-            @Html.ActionLink(postOffice.Name, "PostOfficeTemplate", "PostOffice", new { id = postOffice.Id })
+            @Html.ActionLink(
+                postOffice.Name,
+                "PostOfficeTemplate",
+                "PostOffice",
+                new { id = postOffice.Id })
         </td>
         <td>
             <span class="block-email">@postOffice.Email</span>
@@ -17,12 +21,12 @@
         <td class="desc">@postOffice.Address.Street, @postOffice.Address.House</td>
         <td class="desc">
             <div class="edit-button" id="@postOffice.Id">
-                <img src="/images/edit-icon.png" />
+                <img src="/images/edit-icon.png"/>
             </div>
         </td>
         <td class="desc">
             <div class="delete-button" id="@postOffice.Id">
-                <img src="/images/delete-icon.png" />
+                <img src="/images/delete-icon.png"/>
             </div>
         </td>
     </tr>

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Postera.WebApp.Data;
+using Postera.WebApp.Data.Interfaces;
 using Postera.WebApp.Data.Models;
 using Postera.WebApp.Helpers;
 using Postera.WebApp.Models;
@@ -34,21 +35,21 @@ namespace Postera.WebApp.Controllers
 
             return Ok();
         }
-
+        
         [HttpGet("/{type}/{id}/storages")]
         public async Task<IActionResult> GetStoragesList([FromRoute]SearchParameters parameters)
         {
             var token = ClaimsHelper.GetTokenFromClaims(User);
-            var storageCompanies = await _adminService.GetStorages(parameters.Id, parameters.Type, token);
+            var storageCompanies = await _adminService.GetStorages(parameters.Id, parameters.Type);
 
             return View(storageCompanies);
         }
 
+        [AllowAnonymous]
         [HttpGet("/{type}/{id}/storages/json")]
         public async Task<IActionResult> GetStorages([FromRoute]SearchParameters parameters)
         {
-            var token = ClaimsHelper.GetTokenFromClaims(User);
-            var storageCompanies = await _adminService.GetStorages(parameters.Id, parameters.Type, token);
+            var storageCompanies = await _adminService.GetStorages(parameters.Id, parameters.Type);
 
             return Ok(storageCompanies);
         }
