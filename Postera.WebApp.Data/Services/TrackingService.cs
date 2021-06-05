@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Postera.WebApp.Data.Interfaces;
 using Postera.WebApp.Data.Models;
@@ -14,7 +15,7 @@ namespace Postera.WebApp.Data.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Tracking> GetOrderStatus(string orderId)
+        public async Task<Tracking> GetOrderStatus(Guid orderId)
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/tracking/{orderId}");
 

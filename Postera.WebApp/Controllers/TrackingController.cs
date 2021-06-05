@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Postera.WebApp.Data.Interfaces;
+using Postera.WebApp.Models;
 
 namespace Postera.WebApp.Controllers
 {
@@ -14,18 +16,21 @@ namespace Postera.WebApp.Controllers
             _trackingService = trackingService;
         }
 
-        [HttpGet("{orderId}")]
-        public async Task<IActionResult> Tracking(string orderId)
+        [HttpGet("")]
+        public async Task<IActionResult> Tracking()
         {
-            var orderStatus = await _trackingService.GetOrderStatus(orderId);
-
-            return View(orderStatus);
+            return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetStatus(string orderId)
+        [HttpPost("")]
+        public async Task<IActionResult> OrderStatus(OrderStatusRequestModel model)
         {
-            var orderStatus = await _trackingService.GetOrderStatus(orderId);
+            if (!Guid.TryParse(model.Id, out var id))
+            {
+                return RedirectToActionPermanent("Tracking");
+            }
+            
+            var orderStatus = await _trackingService.GetOrderStatus(id);
 
             return View(orderStatus);
         }

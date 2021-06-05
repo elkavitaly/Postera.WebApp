@@ -1,27 +1,30 @@
-﻿@model Postera.WebApp.Data.Models.Tracking
+﻿@model OrderStatusRequestModel
 @{
     Layout = "_UserLayout";
 }
 
-@section Links {
-    <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.37.2/maps/maps.css'/>
-}
-
-<div id="map" class="map-container"></div>
-
-@section Scripts    
-{
-    <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/5.x/5.37.2/maps/maps-web.min.js'></script>
-    <script>
-    var coordinates = [@Model.CurrentCoordinates.Longitude, @Model.CurrentCoordinates.Latitude];
-    var map = tt.map({
-        container: 'map',
-        key: 'sPZoYgYBxYrzQMgocfjutjv1iFLzqieI',
-        center: coordinates,
-        zoom: 15
-    });
-    var marker = new tt.Marker()
-        .setLngLat(coordinates)
-        .addTo(map);
-</script>
-}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <h3 class="title-4 m-b-20">Track your order</h3>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <form asp-action="OrderStatus" method="post">
+                        <div class="card-body card-block">
+                            <div class="form-group">
+                                <label for="Id" class=" form-control-label">Enter Order number</label>
+                                <input type="text" asp-for="Id" placeholder="" class="form-control">
+                                <span asp-validation-for="Id" class="text-danger"></span>
+                            </div>
+                            <div class="form-group m-t-20">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
