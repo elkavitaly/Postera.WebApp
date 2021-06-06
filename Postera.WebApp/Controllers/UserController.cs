@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Postera.WebApp.Data;
 using Postera.WebApp.Data.Interfaces;
 using Postera.WebApp.Data.Models;
 using Postera.WebApp.Helpers;
@@ -11,11 +10,11 @@ namespace Postera.WebApp.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IAdminService _adminService;
+        private readonly IUserService _userService;
 
-        public UserController(IAdminService adminService)
+        public UserController(IUserService userService)
         {
-            _adminService = adminService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -27,7 +26,7 @@ namespace Postera.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var token = await _adminService.GetToken(loginModel);
+            var token = await _userService.GetToken(loginModel);
             var claimsPrincipal = ClaimsHelper.CreateTokenClaimsPrincipal(token);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
@@ -49,7 +48,7 @@ namespace Postera.WebApp.Controllers
                 return View(credentials);
             }
 
-            await _adminService.Register(credentials);
+            await _userService.Register(credentials);
 
             return RedirectToAction("Login");
         }
@@ -72,9 +71,18 @@ namespace Postera.WebApp.Controllers
         public async Task<IActionResult> GetUser(string email)
         {
             var token = ClaimsHelper.GetTokenFromClaims(User);
-            var user = await _adminService.GetUser(email, token);
+            var user = await _userService.GetUserByEmail(email, token);
 
             return Ok(user);
+        }
+
+        [HttpGet("/users")]
+        public async Task<IActionResult> GetUserByName([FromQuery] string name)
+        {
+            var token = ClaimsHelper.GetTokenFromClaims(User);
+            var users = await _userService.GetUsersByName(name, token);
+
+            return Ok(users);
         }
     }
 }

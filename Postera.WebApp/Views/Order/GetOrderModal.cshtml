@@ -4,120 +4,122 @@
     Layout = null;
 }
 
-<div class="modal fade" id="scrollmodal" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="scrollmodalLabel">@Resources.Order</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">@Model.Id</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body d-flex justify-content-center">
                 <div class="col-lg-11">
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>ID </strong>
-                            <small>@Model.Id</small>
+                    <div class="row m-l-30 order-column">
+                        <div class="form-group">
+                            <div class="row">
+                                <label for="postOfficeCompany" class=" form-control-label">@Resources.PostOffice</label>
+                            </div>
+                            <div class="col col-md-5">
+                                <p id="postOfficeCompany">@Model.PostOffice.Name</p>
+                            </div>
                         </div>
-                        <div class="card-body card-block">
-                            <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
                                 <div class="row">
-                                    <label for="postOfficeCompany" class=" form-control-label">@Resources.PostOffice</label>
+                                    <label for="sourceCity" class="form-control-label">@Resources.From</label>
                                 </div>
                                 <div class="col col-md-5">
-                                    <p id="postOfficeCompany">@Model.PostOffice.Name</p>
+                                    <p id="sourceCity">@Model.SourceStorage.Address.City</p>
+                                </div>
+                                <div class="col col-md-7">
+                                    <p id="sourceAddress">@Model.SourceStorage.Address.Street, @Model.SourceStorage.Address.House</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="sourceCity" class="form-control-label">@Resources.From</label>
-                                    </div>
-                                    <div class="col col-md-5">
-                                        <p id="sourceCity">@Model.SourceStorage.Address.City</p>
-                                    </div>
-                                    <div class="col col-md-7">
-                                        <p id="sourceAddress">@Model.SourceStorage.Address.Street, @Model.SourceStorage.Address.House</p>
-                                    </div>
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <label for="destinationCity" class=" form-control-label">@Resources.To</label>
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="destinationCity" class=" form-control-label">@Resources.To</label>
-                                    </div>
-                                    <div class="col col-md-5">
-                                        <p id="destinationCity">@Model.DestinationStorage.Address.City</p>
-                                    </div>
-                                    <div class="col col-md-7">
-                                        <p id="destinationAddress">@Model.DestinationStorage.Address.Street, @Model.DestinationStorage.Address.House</p>
-                                    </div>
+                                <div class="col col-md-5">
+                                    <p id="destinationCity">@Model.DestinationStorage.Address.City</p>
+                                </div>
+                                <div class="col col-md-7">
+                                    <p id="destinationAddress">@Model.DestinationStorage.Address.Street, @Model.DestinationStorage.Address.House</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="sendDate" class=" form-control-label">@Resources.SendDate</label>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="sendDate">@Model.SendDate</p>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <label for="sendDate" class=" form-control-label">@Resources.SendDate</label>
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="arriveDate" class=" form-control-label">@Resources.ArriveDate</label>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="arriveDate">@Model.ArriveDate</p>
-                                    </div>
+                                <div class="col col-md-12">
+                                    <p id="sendDate">@Model.SendDate</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="status" class=" form-control-label">@Resources.Status</label>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="status">@Model.Status</p>
-                                    </div>
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <label for="arriveDate" class=" form-control-label">@Resources.ArriveDate</label>
+                                </div>
+                                <div class="col col-md-12">
+                                    <p id="arriveDate">@Model.ArriveDate</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="price" class=" form-control-label">@Resources.Price</label>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="price">@Model.Price</p>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <label for="status" class=" form-control-label">@Resources.Status</label>
+                                </div>
+                                <div class="col col-md-12">
+                                    <p id="status">@Model.Status</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="sourceClientFirstName" class=" form-control-label">@Resources.Sender</label>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="sourceClientFirstName">@Model.SourceClient.FirstName</p>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="sourceClientLastName">@Model.SourceClient.LastName</p>
-                                    </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <label for="price" class=" form-control-label">@Resources.Price</label>
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <div class="row">
-                                        <label for="destinationClientFirstName" class=" form-control-label">@Resources.Receiver</label>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="destinationClientFirstName">@Model.DestinationClient.FirstName</p>
-                                    </div>
-                                    <div class="col col-md-12">
-                                        <p id="destinationClientLastName">@Model.DestinationClient.LastName</p>
-                                    </div>
+                                <div class="col col-md-12">
+                                    <p id="price">@Model.Price</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <label for="sourceClientFirstName" class=" form-control-label">@Resources.Sender</label>
+                                </div>
+                                <div class="col col-md-12">
+                                    <p id="sourceClientFirstName">@Model.SourceClient.FirstName</p>
+                                </div>
+                                <div class="col col-md-12">
+                                    <p id="sourceClientLastName">@Model.SourceClient.LastName</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <label for="destinationClientFirstName" class=" form-control-label">@Resources.Receiver</label>
+                                </div>
+                                <div class="col col-md-12">
+                                    <p id="destinationClientFirstName">@Model.DestinationClient.FirstName</p>
+                                </div>
+                                <div class="col col-md-12">
+                                    <p id="destinationClientLastName">@Model.DestinationClient.LastName</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                @Html.ActionLink(
+                    "Go to extended view",
+                    "OrderStatus",
+                    "Tracking",
+                    new { orderId = Model.Id },
+                    new { @class = "btn btn-outline-primary" })
             </div>
         </div>
     </div>

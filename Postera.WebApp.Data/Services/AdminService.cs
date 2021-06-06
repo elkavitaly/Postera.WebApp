@@ -276,43 +276,5 @@ namespace Postera.WebApp.Data.Services
 
             await _client.SendRequest<string>(httpRequestMessage);
         }
-
-        public async Task<string> GetToken(LoginModel loginModel)
-        {
-            var serializedData = JsonConvert.SerializeObject(loginModel);
-            var content = new StringContent(serializedData, Encoding.UTF8, "application/json");
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/users/token")
-            {
-                Content = content
-            };
-
-            var token = await _client.SendRequest<string>(httpRequestMessage);
-
-            return token;
-        }
-
-        public async Task<User> GetUser(string email, string token)
-        {
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, $"/api/users/{email}");
-            httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var user = await _client.SendRequest<User>(httpRequestMessage);
-
-            return user;
-        }
-
-        public async Task<User> Register(RegisterModel registerModel)
-        {
-            var serializedStorages = JsonConvert.SerializeObject(registerModel);
-            var content = new StringContent(serializedStorages, Encoding.UTF8, "application/json");
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api/users/register")
-            {
-                Content = content
-            };
-
-            var user = await _client.SendRequest<User>(httpRequestMessage);
-
-            return user;
-        }
     }
 }

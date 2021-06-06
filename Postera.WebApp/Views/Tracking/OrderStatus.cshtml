@@ -8,56 +8,57 @@
 }
 
 <div class="container-fluid">
-    <div class="row m-b-20 align-items-center">
-        <h3 class="title-3">Order</h3><h3 class="title-4 m-l-15">@Model.Id</h3>
+    <div class="row m-b-40 align-items-center">
+        <h3 class="title-3">Order</h3>
+        <h3 class="title-4 m-l-15 text-uppercase">@Model.Id</h3>
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <div class="row form-group m-b-20 order-column order-column">
-                <div class="row">
+            <div class="row form-group m-b-20">
+                <div class="col-2">
                     <label for="sourceCity" class="form-control-label order-label-element">From</label>
                 </div>
-                <div class="row">
+                <div class="col-10">
                     <p id="sourceCity" class="order-text-element">@Model.SourceStorage.Address.City, @Model.SourceStorage.Address.Street, @Model.SourceStorage.Address.House</p>
                 </div>
             </div>
-            <div class="row form-group m-b-20 order-column order-column">
-                <div class="row">
+            <div class="row form-group m-b-20">
+                <div class="col-2">
                     <label for="destinationCity" class=" form-control-label order-label-element">To</label>
                 </div>
-                <div class="row">
+                <div class="col-10">
                     <p id="destinationCity" class="order-text-element">@Model.DestinationStorage.Address.City, @Model.DestinationStorage.Address.Street, @Model.DestinationStorage.Address.House</p>
                 </div>
             </div>
-            <div class="row form-group m-b-20 order-column">
-                <div class="row">
-                    <label for="sendDate" class=" form-control-label order-label-element">Expected arrival date</label>
+            <div class="row form-group m-b-20">
+                <div class="col-2">
+                    <label for="sendDate" class=" form-control-label order-label-element">Arrival date</label>
                 </div>
-                <div class="row">
+                <div class="col-10">
                     <p id="sendDate" class="order-text-element">@Model.ExpectedArrivalDate</p>
                 </div>
             </div>
-            <div class="row form-group m-b-20 order-column">
-                <div class="row">
-                    <label for="status" class=" form-control-label order-label-element">Status</label>
+            <div class="row form-group m-b-20">
+                <div class="col-2">
+                    <label for="status" class="form-control-label order-label-element">Status</label>
                 </div>
-                <div class="row">
+                <div class="col-10">
                     <p id="status" class="order-text-element">@Model.Status</p>
                 </div>
             </div>
-            <div class="row form-group m-b-20 order-column">
-                <div class="row">
+            <div class="row form-group m-b-20">
+                <div class="col-2">
                     <label for="price" class=" form-control-label order-label-element">Price</label>
                 </div>
-                <div class="row">
+                <div class="col-10">
                     <p id="price" class="order-text-element">@Model.Price</p>
                 </div>
             </div>
-            <div class="row form-group m-b-20 order-column">
-                <div class="row">
-                    <label for="destinationClientFirstName" class=" form-control-label order-label-element">Receiver</label>
+            <div class="row form-group m-b-20">
+                <div class="col-2">
+                    <label for="destinationClientFirstName" class="form-control-label order-label-element">Receiver</label>
                 </div>
-                <div class="row">
+                <div class="col-10">
                     <p id="destinationClientFirstName" class="order-text-element">@Model.DestinationClient.FirstName @Model.DestinationClient.LastName</p>
                 </div>
             </div>
@@ -77,6 +78,7 @@
             container: 'map',
             key: 'sPZoYgYBxYrzQMgocfjutjv1iFLzqieI',
             center: coordinates,
+            style: 'tomtom://vector/1/basic-main',
             zoom: 10
         });
         

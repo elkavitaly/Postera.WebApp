@@ -336,7 +336,7 @@ const submitEventHandlers = (function () {
 
         let resultElement = document.querySelector("#priceResult");
         resultElement.innerHTML = response;
-        
+
         document.querySelector(".main-content").scrollIntoView({behavior: "smooth"});
     }
 
@@ -739,5 +739,121 @@ const priceModule = (function () {
 
     return {
         registerEvents: registerPricePageEvents
+    };
+})();
+
+const userSearchModule = (function () {
+    function initialize(elementSelector) {
+        $(elementSelector).select2();
+        $(elementSelector).on("select2:open", async function () {
+            let element = document.querySelector(".select2-search__field");
+            element.addEventListener("input", async function (event) {
+                let value = event.target.value;
+                await getUsers(value, elementSelector);
+            });
+        });
+    }
+
+    async function getUsers(value, elementSelector) {
+        // let data = await sendRequest(`${value}`);
+        let data = [
+            {
+                id: 1,
+                text: "sdsdsd"
+            },
+            {
+                id: 2,
+                text: "asasas"
+            }
+        ];
+
+        $(elementSelector).val(null).trigger('change');
+
+        for (const element of data) {
+            let newOption = new Option(element.text, element.id, false, false);
+            $(elementSelector).append(newOption).trigger('change');
+        }
+    }
+
+    return {
+        init: initialize
+    };
+})();
+
+const searchableDropdownModule = (function () {
+    let _input = document.querySelector("#search-field");
+    let _container = document.querySelector("#search-options-container");
+
+    function initialize() {
+        _input.addEventListener("input", onInput);
+        _container.addEventListener("click", onItemClick);
+        displayListElement("", "Enter user name");
+    }
+
+    async function onInput(event) {
+        let value = event.target.value;
+        removeChildNodes();
+
+        if (!value) {
+            displayListElement("", "Enter user name");
+            return;
+        }
+
+        let users = await getUsers(value);
+        populateDropdown(users);
+    }
+
+    function populateDropdown(users) {
+        for (const user of users) {
+            displayListElement(user.id, `${user.firstName} ${user.lastName}`);
+        }
+    }
+
+    function onItemClick(event) {
+        if (event.target.classList.contains("dropdown-item")) {
+            _input.value = event.target.dataset.text;
+            _input.dataset.id = event.target.dataset.id;
+        }
+    }
+
+    function displayListElement(id, text) {
+        let element = document.createElement("p");
+        element.setAttribute("class", "dropdown-item");
+        element.dataset.id = id;
+        element.dataset.text = text;
+
+        let textNode = document.createTextNode(text);
+        element.appendChild(textNode);
+
+        _container.appendChild(element);
+    }
+
+    function removeChildNodes() {
+        while (_container.firstChild) {
+            _container.removeChild(_container.lastChild);
+        }
+    }
+
+    async function getUsers(searchParameter) {
+        let response = await sendRequest(`/users?name=${searchParameter}`);
+        let users = JSON.parse(response)
+
+        return users;
+    }
+
+    return {
+        init: initialize
+    }
+})();
+
+const loadModule = (function () {
+    function onDocumentLoaded(action) {
+        document.addEventListener('DOMContentLoaded', function () {
+            action();
+        });
+    }
+
+    return {
+        onDocumentLoaded: onDocumentLoaded
     };
 })();

@@ -3,6 +3,7 @@
 @{
     Layout = "_UserLayout";
 }
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateOrder" asp-controller="Order">
@@ -41,30 +42,32 @@
                 <span asp-validation-for="DestinationStorageId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DestinationClientEmail" class="control-label">@Resources.ReceiverEmail</label>
-                <input asp-for="DestinationClientEmail" class="form-control" />
-                <span asp-validation-for="DestinationClientEmail" class="text-danger"></span>
+                <label asp-for="DestinationClientEmail" class="control-label">Receiver Name</label>
+                @{ await Html.RenderPartialAsync("SearchableDropdown"); }
             </div>
             <div id="userSection" class="form-group disabled">
                 <div form-group>
                     <label for="userFirstName">@Resources.FirstName</label>
-                    <input id="userFirstName" class="form-control" readonly="readonly" />
+                    <input id="userFirstName" class="form-control" readonly="readonly"/>
                 </div>
                 <div form-group>
                     <label for="userLastName">@Resources.LastName</label>
-                    <input id="userLastName" class="form-control" readonly="readonly" />
+                    <input id="userLastName" class="form-control" readonly="readonly"/>
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="@Resources.Create" class="btn btn-primary" />
+                <input type="submit" value="@Resources.Create" class="btn btn-primary"/>
             </div>
         </form>
     </div>
 </div>
+
 @section Scripts
 {
     <script>
-        getPostOffices();
-        checkDestinationUser();
+        document.addEventListener('DOMContentLoaded', function (){
+            getPostOffices();
+            checkDestinationUser();
+        });
     </script>
 }

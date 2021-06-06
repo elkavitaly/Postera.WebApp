@@ -17,7 +17,7 @@ namespace Postera.WebApp.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Tracking()
+        public IActionResult Tracking()
         {
             return View();
         }
@@ -29,8 +29,16 @@ namespace Postera.WebApp.Controllers
             {
                 return RedirectToActionPermanent("Tracking");
             }
-            
+
             var orderStatus = await _trackingService.GetOrderStatus(id);
+
+            return View(orderStatus);
+        }
+
+        [HttpGet("{orderId}")]
+        public async Task<IActionResult> OrderStatus(Guid orderId)
+        {
+            var orderStatus = await _trackingService.GetOrderStatus(orderId);
 
             return View(orderStatus);
         }

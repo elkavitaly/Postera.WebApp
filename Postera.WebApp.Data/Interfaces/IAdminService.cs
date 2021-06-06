@@ -53,11 +53,5 @@ namespace Postera.WebApp.Data.Interfaces
         Task DeleteStorageCompany(Guid id, string token);
 
         Task CreateStoragesCompany(Guid id, IList<Storage> storages, string token);
-
-        Task<string> GetToken(LoginModel loginModel);
-
-        Task<User> GetUser(string email, string token);
-
-        Task<User> Register(RegisterModel registerModel);
     }
 }

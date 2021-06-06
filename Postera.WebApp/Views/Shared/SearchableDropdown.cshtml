@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    #search-options-container {
+        margin-top: 1px;
+        transform: translate3d(0px, 2.25rem, 0px)!important;
+        width: 100%;
+    }
+</style>
+
+<div class="dropdown">
+    <input type="text" id="search-field" class="dropdown-toggle form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" autocomplete="off">
+    <div id="search-options-container" class="dropdown-menu"></div>
+</div>
+
+<script src="/js/site.js"></script>
+<script>
+    loadModule.onDocumentLoaded(searchableDropdownModule.init);
+</script>

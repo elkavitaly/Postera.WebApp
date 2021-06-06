@@ -30,6 +30,7 @@ namespace Postera.WebApp
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IPriceService, PriceService>();
             services.AddScoped<ITrackingService, TrackingService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBackupService, BackupService>();
             services.AddSingleton<IHttpClient, HttpClient>();
 
