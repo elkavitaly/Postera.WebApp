@@ -37,7 +37,7 @@ namespace Postera.WebApp.Data.Models
         public Storage DestinationStorage { get; set; }
 
         [Required]
-        public string DestinationClientEmail { get; set; }
+        public string DestinationClientId { get; set; }
 
         public User DestinationClient { get; set; }
 

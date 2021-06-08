@@ -4,70 +4,111 @@
     Layout = "_UserLayout";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateOrder" asp-controller="Order">
+<form id="createOrder" asp-action="CreateOrder" asp-controller="Order" class="container-fluid">
+    <div class="row">
+        <div class="col-md-5">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PostOfficeId" class="control-label">@Resources.PostOfficeService</label>
-                <select asp-for="PostOfficeId" class="form-control">
+            <h4 class="title-5 m-b-20 m-t-30">@Resources.PostOfficeService</h4>
+            <div class="form-group p-l-40">
+                <select asp-for="PostOfficeId" class="form-control form-control-bottom-border">
                     <option value="">@Resources.SelectService</option>
                 </select>
                 <span asp-validation-for="PostOfficeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label for="sourceCity" class="control-label">@Resources.SourceCity</label>
-                <select id="sourceCity" class="form-control">
-                    <option value="">@Resources.SelectSourceCity</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SourceStorageId" class="control-label">@Resources.SourceStorage</label>
-                <select asp-for="SourceStorageId" class="form-control">
-                    <option value="">@Resources.SelectSourceStorage</option>
-                </select>
-                <span asp-validation-for="SourceStorageId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="destinationCity" class="control-label">@Resources.DestinationCity</label>
-                <select id="destinationCity" class="form-control">
-                    <option value="">@Resources.SelectDestinationCity</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="DestinationStorageId" class="control-label">@Resources.DestinationStorage</label>
-                <select asp-for="DestinationStorageId" class="form-control">
-                    <option value="">@Resources.SelectDestinationStorage</option>
-                </select>
-                <span asp-validation-for="DestinationStorageId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DestinationClientEmail" class="control-label">Receiver Name</label>
-                @{ await Html.RenderPartialAsync("SearchableDropdown"); }
-            </div>
-            <div id="userSection" class="form-group disabled">
-                <div form-group>
-                    <label for="userFirstName">@Resources.FirstName</label>
-                    <input id="userFirstName" class="form-control" readonly="readonly"/>
+            <h4 class="title-5 m-b-20 m-t-30">Sender</h4>
+            <div class="row p-l-40">
+                <div class="form-group col-6">
+                    <label for="sourceCity" class="control-label">@Resources.SourceCity</label>
+                    <select id="sourceCity" class="form-control form-control-bottom-border">
+                        <option value="">@Resources.SelectSourceCity</option>
+                    </select>
                 </div>
-                <div form-group>
-                    <label for="userLastName">@Resources.LastName</label>
-                    <input id="userLastName" class="form-control" readonly="readonly"/>
+                <div class="form-group col-6">
+                    <label asp-for="SourceStorageId" class="control-label">@Resources.SourceStorage</label>
+                    <select asp-for="SourceStorageId" class="form-control form-control-bottom-border">
+                        <option value="">@Resources.SelectSourceStorage</option>
+                    </select>
+                    <span asp-validation-for="SourceStorageId" class="text-danger"></span>
+                </div>
+            </div>
+            <h4 class="title-5 m-b-20 m-t-30">Receiver</h4>
+            <div class="row order-column p-l-40">
+                <div class="row m-b-30">
+                    <div class="form-group col-6">
+                        <label for="destinationCity" class="control-label">@Resources.DestinationCity</label>
+                        <select id="destinationCity" class="form-control form-control-bottom-border">
+                            <option value="">@Resources.SelectDestinationCity</option>
+                        </select>
+                    </div>
+                    <div class="form-group  col-6">
+                        <label asp-for="DestinationStorageId" class="control-label">@Resources.DestinationStorage</label>
+                        <select asp-for="DestinationStorageId" class="form-control form-control-bottom-border">
+                            <option value="">@Resources.SelectDestinationStorage</option>
+                        </select>
+                        <span asp-validation-for="DestinationStorageId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DestinationClientId" class="control-label">Search</label>
+                    <div class="d-flex justify-content-between">
+                        @{ await Html.RenderPartialAsync("SearchableDropdown"); }
+                        <button id="clearUser" type="button" class="btn btn-outline-secondary disabled m-l-30">Clear</button>
+                    </div>
+                </div>
+                <div id="userSection" class="form-group">
+                    <input type="hidden" asp-for="DestinationClientId">
+                    <div class="row m-b-30">
+                        <div class="form-group col-6">
+                            <label for="firstName" class="control-label">FirstName</label>
+                            <input asp-for="DestinationClient.FirstName" class="form-control form-control-bottom-border"/>
+                        </div>
+                        <div class="form-group  col-6">
+                            <label for="lastName">LastName</label>
+                            <input asp-for="DestinationClient.LastName" class="form-control form-control-bottom-border"/>
+                        </div>
+                    </div>
+                    <div class="row m-b-30">
+                        <div class="form-group col-6">
+                            <label for="phone">Phone Number</label>
+                            <input asp-for="DestinationClient.Phone" class="form-control form-control-bottom-border"/>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="@Resources.Create" class="btn btn-primary"/>
             </div>
-        </form>
+
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+            <div class="spacer"></div>
+            <h4 class="title-5 m-b-20 m-t-30">Packages</h4>
+            <div class="row p-l-40">
+                <div class="col-12">
+                    <div id="packages" class="row">
+                        <div class="row package-section">
+                            @{ await Html.RenderPartialAsync("~/Views/Package/GetPackageSection.cshtml"); }
+                        </div>
+                    </div>
+                    <button type="button" id="addItem" class="btn btn-outline-secondary">Add package</button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</form>
 
 @section Scripts
 {
     <script>
         document.addEventListener('DOMContentLoaded', function (){
             getPostOffices();
-            checkDestinationUser();
+            
+            let sectionSelector = "#packages";
+            let elementSelector = "package-section";
+            orderCreationModule.init(sectionSelector, elementSelector, "packages");
+            
+            collectionItemsElementModule.registerAddButton("#addItem", "/packages/section", sectionSelector, elementSelector)
         });
     </script>
 }

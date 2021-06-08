@@ -10,45 +10,7 @@
 <div id="priceResult" class="row"></div>
 <div class="spacer"></div>
 <div class="row">
-    <div class="col-6">
-        <form asp-action="CalculatePrice" method="post" id="addForm">
-            <div class="form-group">
-                <label asp-for="PostOfficeId" class="control-label"></label>
-                <select asp-for="PostOfficeId" class="form-control">
-                    <option>Select company</option>
-                </select>
-            </div>
-            <div>
-                <div class="form-group">
-                    <label asp-for="SourceAddress.City" class="control-label"></label>
-                    <select asp-for="SourceAddress.City" class="form-control">
-                        <option>Select city</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DestinationAddress.City" class="control-label"></label>
-                    <select asp-for="DestinationAddress.City" class="form-control">
-                        <option>Select city</option>
-                    </select>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <h4 class="title-5 m-b-10 m-t-20">Packages</h4>
-
-                <div id="packages" class="row">
-                    <div class="row package-section">
-                        @{ await Html.RenderPartialAsync("GetPackageSection"); }
-                    </div>
-                </div>
-            </div>
-            <div class="row m-l-40 m-b-10">
-                <button type="button" id="addItem" class="btn btn-outline-secondary">Add package</button>
-            </div>
-            <div class="form-group m-t-40">
-                <input type="submit" value="Calculate" class="btn btn-primary btn-lg"/>
-            </div>
-        </form>
-    </div>
+    @{ await Html.RenderPartialAsync("CalculatePricePartial"); }
 </div>
 
 @section Scripts {
@@ -57,7 +19,7 @@
         
         let sectionSelector = "#packages";
         let elementSelector = "package-section";
-        collectionItemsElementModule.registerAddButton("#addItem", "/price/packages/section", sectionSelector, elementSelector)
+        collectionItemsElementModule.registerAddButton("#addItem", "/packages/section", sectionSelector, elementSelector)
         collectionItemsModule.registerOnSubmitEvent(sectionSelector, elementSelector, "packages", submitEventHandlers.onPriceCalculate);
     </script>
 }

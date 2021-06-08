@@ -12,15 +12,16 @@
             body: body
         })
         .then((response) => {
-            if (response.status == 500) {
-                document.location.replace("/");
+            if (response.ok) {
+                return response.text();
             }
 
             if (response.status == 401) {
                 document.location.replace("/user/login");
+                return;
             }
 
-            return response.text();
+            document.location.replace("/");
         });
 
     return responseText;
@@ -295,21 +296,21 @@ const collectionItemsModule = (function () {
 
         let form = document.querySelector(formSelector);
         let formData = new FormData(form);
-        getSections(form, formData);
+        getSections(form, formData, _sectionSelector, _elementSelector, _elementName);
         let parameters = new URLSearchParams(formData);
 
         _submitEventCallback(parameters);
     }
 
-    function getSections(formElement, formData) {
-        let sections = formElement.querySelectorAll(`${_sectionSelector} .${_elementSelector}`);
+    function getSections(formElement, formData, sectionSelector, elementSelector, elementName) {
+        let sections = formElement.querySelectorAll(`${sectionSelector} .${elementSelector}`);
 
         for (let i = 0; i < sections.length; i++) {
             let elements = sections[i].querySelectorAll(".form-group input");
             for (let j = 0; j < elements.length; j++) {
                 let name = elements[j].name;
                 let value = elements[j].value;
-                let key = `${_elementName}[${i}].${name}`;
+                let key = `${elementName}[${i}].${name}`;
                 formData.append(key, value);
             }
         }
@@ -321,12 +322,13 @@ const collectionItemsModule = (function () {
         _elementName = elementName;
         _submitEventCallback = submitEventCallback;
 
-        let form = document.querySelector(formSelector);
-        form.addEventListener("submit", onFormSubmit);
+        let button = document.querySelector("#calculatePrice");
+        button.addEventListener("click", onFormSubmit);
     }
 
     return {
-        registerOnSubmitEvent: registerFormSubmitEvent
+        registerOnSubmitEvent: registerFormSubmitEvent,
+        getSections: getSections,
     }
 })();
 
@@ -701,6 +703,18 @@ async function onSearchClean() {
     getOrders(id, type);
 }
 
+const loadModule = (function () {
+    function onDocumentLoaded(action) {
+        document.addEventListener('DOMContentLoaded', function () {
+            action();
+        });
+    }
+
+    return {
+        onDocumentLoaded: onDocumentLoaded
+    };
+})();
+
 const priceModule = (function () {
     async function registerPricePageEvents() {
         let postOfficeSelect = document.querySelector("#PostOfficeId");
@@ -742,47 +756,10 @@ const priceModule = (function () {
     };
 })();
 
-const userSearchModule = (function () {
-    function initialize(elementSelector) {
-        $(elementSelector).select2();
-        $(elementSelector).on("select2:open", async function () {
-            let element = document.querySelector(".select2-search__field");
-            element.addEventListener("input", async function (event) {
-                let value = event.target.value;
-                await getUsers(value, elementSelector);
-            });
-        });
-    }
-
-    async function getUsers(value, elementSelector) {
-        // let data = await sendRequest(`${value}`);
-        let data = [
-            {
-                id: 1,
-                text: "sdsdsd"
-            },
-            {
-                id: 2,
-                text: "asasas"
-            }
-        ];
-
-        $(elementSelector).val(null).trigger('change');
-
-        for (const element of data) {
-            let newOption = new Option(element.text, element.id, false, false);
-            $(elementSelector).append(newOption).trigger('change');
-        }
-    }
-
-    return {
-        init: initialize
-    };
-})();
-
 const searchableDropdownModule = (function () {
     let _input = document.querySelector("#search-field");
     let _container = document.querySelector("#search-options-container");
+    let data = [];
 
     function initialize() {
         _input.addEventListener("input", onInput);
@@ -799,20 +776,20 @@ const searchableDropdownModule = (function () {
             return;
         }
 
-        let users = await getUsers(value);
-        populateDropdown(users);
+        await getUsers(value);
+        populateDropdown();
     }
 
-    function populateDropdown(users) {
-        for (const user of users) {
-            displayListElement(user.id, `${user.firstName} ${user.lastName}`);
+    function populateDropdown() {
+        for (const item of data) {
+            displayListElement(item.id, `${item.firstName} ${item.lastName}`);
         }
     }
 
     function onItemClick(event) {
         if (event.target.classList.contains("dropdown-item")) {
-            _input.value = event.target.dataset.text;
             _input.dataset.id = event.target.dataset.id;
+            _input.value = event.target.dataset.text;
         }
     }
 
@@ -836,24 +813,98 @@ const searchableDropdownModule = (function () {
 
     async function getUsers(searchParameter) {
         let response = await sendRequest(`/users?name=${searchParameter}`);
-        let users = JSON.parse(response)
+        data = JSON.parse(response)
+    }
 
-        return users;
+    function getData() {
+        return data;
+    }
+
+    return {
+        init: initialize,
+        data: getData
+    }
+})();
+
+const orderCreationModule = (function () {
+    let _elementId;
+    let _elementFirstName;
+    let _elementLastName;
+    let _elementPhone;
+
+    let _sectionSelector;
+    let _elementSelector;
+    let _packagesElementName;
+
+    function initialize(sectionSelector, elementSelector, elementName) {
+        _elementId = document.querySelector("#DestinationClientId");
+        _elementFirstName = document.querySelector("#DestinationClient_FirstName");
+        _elementLastName = document.querySelector("#DestinationClient_LastName");
+        _elementPhone = document.querySelector("#DestinationClient_Phone");
+
+        let container = document.querySelector(".dropdown #search-options-container");
+        container.addEventListener("click", onDestinationUserSelected);
+        let button = document.querySelector("#clearUser");
+        button.addEventListener("click", onClearButtonClick);
+
+        _sectionSelector = sectionSelector;
+        _elementSelector = elementSelector;
+        _packagesElementName = elementName;
+
+        let form = document.querySelector("#createOrder");
+        form.addEventListener("submit", onFormSubmit);
+    }
+
+    function onDestinationUserSelected(event) {
+        let id = event.target.dataset.id;
+        let item = searchableDropdownModule.data().find(x => x.id === id);
+
+        _elementId.value = id;
+        _elementFirstName.value = item.firstName;
+        _elementLastName.value = item.lastName;
+        _elementPhone.value = item.phone;
+
+        setFieldsReadonly([_elementId, _elementFirstName, _elementLastName, _elementPhone]);
+
+        let button = document.querySelector("#clearUser");
+        button.classList.remove("disabled");
+    }
+
+    function onClearButtonClick(event) {
+        let searchInput = document.querySelector("#search-field");
+        unsetFieldsReadonly([_elementId, _elementFirstName, _elementLastName, _elementPhone, searchInput]);
+
+        let button = event.target;
+        button.classList.add("disabled");
+    }
+
+    function setFieldsReadonly(fields) {
+        for (const field of fields) {
+            field.setAttribute("readonly", "readonly");
+        }
+    }
+
+    function unsetFieldsReadonly(fields) {
+        for (const field of fields) {
+            field.removeAttribute("readonly");
+            field.value = null;
+        }
+    }
+
+    async function onFormSubmit(event) {
+        event.preventDefault();
+        
+        let form = event.target;
+        let formData = new FormData(form);
+        collectionItemsModule.getSections(form, formData, _sectionSelector, _elementSelector, _packagesElementName);
+        let parameters = new URLSearchParams(formData);
+
+        await sendRequest("/order/createOrder", "post", parameters);
+
+        window.location = "/user/account";
     }
 
     return {
         init: initialize
-    }
-})();
-
-const loadModule = (function () {
-    function onDocumentLoaded(action) {
-        document.addEventListener('DOMContentLoaded', function () {
-            action();
-        });
-    }
-
-    return {
-        onDocumentLoaded: onDocumentLoaded
     };
 })();

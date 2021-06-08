@@ -208,3 +208,8 @@ html {
 .order-column {
     flex-direction: column;
 }
+
+.form-control-bottom-border {
+    border: none;
+    border-bottom: 1px solid #ced4da;;
+}

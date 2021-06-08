@@ -30,11 +30,5 @@ namespace Postera.WebApp.Controllers
 
             return View("CalculatePriceResult", priceResult);
         }
-
-        [HttpGet("packages/section")]
-        public IActionResult GetPackageSection()
-        {
-            return View();
-        }
     }
 }
